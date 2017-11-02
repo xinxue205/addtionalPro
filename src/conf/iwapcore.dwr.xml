@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+
+<dwr>
+
+	<init>
+		<converter id="iwapexception"
+			class="com.nantian.ofpiwap.IWAPExceptionConverter" />
+	</init>
+	<allow>
+
+		<create creator="new" javascript="JDateCore" scope="session">
+			<param name="class" value="java.util.Date" />
+			<exclude method="getHours" />
+			<auth method="getMinutes" role="admin" />
+			<auth method="getMinutes" role="devel" />
+			<filter
+				class="org.getahead.dwrdemo.filter.LoggingAjaxFilter" />
+		</create>
+		<create creator="spring" javascript="myaccount">
+			<param name="beanName" value="myaccount" />
+		</create>
+		<create creator="spring" javascript="myaccountDao">
+			<param name="beanName" value="myaccountDao" />
+		</create>
+		<create creator="spring" javascript="onlineData">
+			<param name="beanName" value="onlineData" />
+		</create>
+		<create creator="spring" javascript="TabConfigUtil">
+			<param name="beanName" value="TabConfigUtil" />
+		</create>
+		<create creator="new" javascript="SimpleBean">
+			<param name="class" value="demo.SimpleBean" />
+		</create>
+
+
+		<create creator="spring" javascript="dictProvider">
+			<param name="beanName" value="dictProvider" />
+		</create>
+		<create creator="spring" javascript="dictDao">
+			<param name="beanName" value="dictDao" />
+		</create>
+
+		<create creator="spring" javascript="dataitemProvider">
+			<param name="beanName" value="dataitemProvider" />
+		</create>
+		<create creator="spring" javascript="dataitemDao">
+			<param name="beanName" value="dataitemDao" />
+		</create>
+
+		<create creator="spring" javascript="sqlNature">
+			<param name="beanName" value="sqlNature" />
+		</create>
+
+
+
+
+
+		<!-- this is a bad idea for live, but can be useful in testing -->
+		<convert converter="iwapexception" match="java.lang.Exception" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.dataservice.QueryResultData" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.dataservice.Condition">
+			<param name="javascript" value="Condition" />
+		</convert>
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.DataDict" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.secure.Account" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.srv.popedom.Module" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.srv.popedom.ModuleAndChildren" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.dataservice.SqlConditionMaker" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.dataservice.ValueGetter" />
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.dataservice.Or">
+			<param name="javascript" value="Or" />
+		</convert>
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.faces.dataservice.And">
+			<param name="javascript" value="And" />
+		</convert>
+		<convert converter="bean"
+			match="com.nantian.ofpiwap.msg.Information">
+		</convert>
+		<convert converter="iwapexception"
+			match="com.nantian.ofpiwap.msg.InfoException">
+		</convert>
+
+	</allow>
+
+</dwr>

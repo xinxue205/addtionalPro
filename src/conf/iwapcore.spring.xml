@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<description>core</description>
+	<bean id="propertyPlaceholderConfigure"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/conf/jdbc.properties</value>
+				<value>classpath:/conf/common.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders">
+			<value>true</value>
+		</property>
+	</bean>
+
+
+	<bean id="versionFilter"
+		class="com.nantian.ofpiwap.srv.popedom.VersionFilter">
+	</bean>
+	<bean id="templateContext"
+		class="com.nantian.ofpiwap.srv.popedom.ApplicationContextFactory">
+	</bean>
+	<bean id="versionedModuleLoader"
+		class="com.nantian.ofpiwap.srv.popedom.VersionedModuleLoader">
+		<property name="versionFilter">
+			<ref bean="versionFilter" />
+		</property>
+		<property name="templateContext">
+			<ref bean="templateContext" />
+		</property>
+	</bean>
+
+	<bean id="dbModuleLoader"
+		class="com.nantian.ofpiwap.srv.popedom.DBModuleLoader"
+		init-method="initAllModules">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="moduleUtil"
+		class="com.nantian.ofpiwap.srv.popedom.ModuleUtil"
+		init-method="init">
+		<property name="loaders">
+			<list>
+				<ref bean="versionedModuleLoader" />
+				<ref bean="dbModuleLoader" />
+			</list>
+		</property>
+	</bean>
+	<bean id="pageTemplateHelper"
+		class="com.nantian.ofpiwap.faces.pagetemplate.PageTemplateHelper"
+		init-method="init">
+		<property name="versionFilter">
+			<ref bean="versionFilter" />
+		</property>
+		<property name="templateContext">
+			<ref bean="templateContext" />
+		</property>
+	</bean>
+
+	<bean id="ExecPopedomService"
+		class="com.nantian.ofpiwap.srv.popedom.ExecPopedomService">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="moduleUtil">
+			<ref bean="moduleUtil" />
+		</property>
+	</bean>
+	<bean id="ConfigPopedomService"
+		class="com.nantian.ofpiwap.srv.popedom.ConfigPopedomService">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="moduleUtil">
+			<ref bean="moduleUtil" />
+		</property>
+	</bean>
+	<bean id="LoginService"
+		class="com.nantian.ofpiwap.srv.LoginService">
+		<property name="execPopedomService">
+			<ref bean="ExecPopedomService" />
+		</property>
+	</bean>
+
+
+	<bean id="dataSource"
+		class="com.nantian.ofpiwap.DataSourceFactory">
+		<property name="driverClassName">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="jndiName">
+			<value>${jdbc.jndiName}</value>
+		</property>
+	</bean>
+
+	<bean id="DataItemReader" class="${DataItemReader}">
+		<property name="datasource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="DataDictReader" class="${DataDictReader}">
+		<property name="datasource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="DataListReader"
+		class="com.nantian.ofpiwap.faces.DataListDBReader">
+		<property name="datasource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="ParamSqlProvider" abstract="true"
+		class="com.nantian.ofpiwap.faces.dataservice.ParameterSqlProvider"
+		init-method="initFieldNames">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="dialect">
+			<bean class="${jdbc.dialect}" />
+		</property>
+		<property name="dataItemReader">
+			<ref bean="DataItemReader" />
+		</property>
+	</bean>
+	<bean id="accountPsql" parent="ParamSqlProvider">
+		<property name="sqlString">
+			<value>
+				select * from sys_account where account_status >
+				$C(name=ACCOUNT_STATUS) or account_name=$C(name=xxxx)
+			</value>
+		</property>
+		<meta key="todwr" value="true" />
+	</bean>
+	<bean id="QueryProvider" abstract="true"
+		class="com.nantian.ofpiwap.faces.dataservice.QueryDataProvider"
+		init-method="initFieldNames">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="dialect">
+			<bean class="${jdbc.dialect}" />
+		</property>
+		<property name="dataItemReader">
+			<ref bean="DataItemReader" />
+		</property>
+	</bean>
+
+	<bean id="TableProvider" abstract="true"
+		class="com.nantian.ofpiwap.faces.dataservice.TableProvider"
+		init-method="initFieldNames">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="dialect">
+			<bean class="${jdbc.dialect}" />
+		</property>
+		<property name="dataItemReader">
+			<ref bean="DataItemReader" />
+		</property>
+	</bean>
+	<bean id="TableDao" abstract="true"
+		class="com.nantian.ofpiwap.srv.FormatedJDBCTableDao"
+		init-method="initColumnNames">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="myaccountDao" parent="TableDao">
+		<property name="tableName" value="sys_account" />
+		<property name="pkName" value="account_id" />
+	</bean>
+
+
+
+
+	<bean id="myaccount" parent="TableProvider">
+		<property name="tableName">
+			<value>sys_account</value>
+		</property>
+
+
+		<property name="defaultConditionsTree">
+			<bean class="com.nantian.ofpiwap.faces.dataservice.And">
+				<property name="conditions">
+					<list>
+
+						<bean
+							class="com.nantian.ofpiwap.faces.dataservice.Condition">
+							<property name="fieldName">
+								<value>ACCOUNT_ID</value>
+							</property>
+							<property name="oper">
+								<value>oper_no_equal</value>
+							</property>
+							<property name="value1">
+								<value>test</value>
+							</property>
+						</bean>
+
+						<bean
+							class="com.nantian.ofpiwap.faces.dataservice.Or">
+							<property name="conditions">
+								<list>
+									<bean
+										class="com.nantian.ofpiwap.faces.dataservice.Condition">
+										<property name="fieldName">
+											<value>ACCOUNT_NAME</value>
+										</property>
+										<property name="oper">
+											<value>oper_no_equal</value>
+										</property>
+										<property name="value1">
+											<value>xx</value>
+										</property>
+									</bean>
+									<bean
+										class="com.nantian.ofpiwap.faces.dataservice.Condition">
+										<property name="fieldName">
+											<value>ACCOUNT_NAME</value>
+										</property>
+										<property name="oper">
+											<value>oper_no_equal</value>
+										</property>
+										<property name="value1">
+											<value>yy</value>
+										</property>
+									</bean>
+								</list>
+							</property>
+						</bean>
+
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<property name="formatters">
+			<map>
+				<entry>
+					<key>
+						<value>ACCOUNT_STATUS</value>
+					</key>
+					<bean
+						class="com.nantian.ofpiwap.faces.dataservice.DataDictFormater">
+						<property name="dataDictReader">
+							<ref bean="DataDictReader" />
+						</property>
+						<property name="dictName">
+							<value>ACCOUNT_STATUS</value>
+						</property>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<value>ACCOUNT_INV_DATE</value>
+					</key>
+					<bean
+						class="com.nantian.ofpiwap.faces.dataservice.MessageFormater">
+						<property name="formatStr">
+							<value>{0,date,yyyy年MM月dd日}</value>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+
+	</bean>
+
+	<bean id="DefaultSequence"
+		class="com.nantian.ofpiwap.srv.no.DefaultSequence">
+		<property name="defaultBufferSize" value="100000" />
+		<property name="autoCreate">
+			<value>true</value>
+		</property>
+		<property name="sequenceDao" ref="iwapSequenceDao" />
+		<meta key="tx" value="getNextSequence:PROPAGATION_REQUIRES_NEW" />
+	</bean>
+	<bean id="iwapSequenceDao"
+		class="com.nantian.ofpiwap.srv.no.SequenceDao">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<meta key="tx" value="insertNo:PROPAGATION_REQUIRES_NEW;" />
+	</bean>
+	<bean id="TabConfigUtil"
+		class="com.nantian.ofpiwap.srv.TabConfigUtil">
+		<property name="prefs">
+			<ref bean="Preference" />
+		</property>
+	</bean>
+
+	<bean id="Preference"
+		class="com.nantian.ofpiwap.srv.DefaultPreference">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="onlineData"
+		class="com.nantian.ofpiwap.faces.dataservice.OnlineDataProvider">
+	</bean>
+	<bean id="iii" parent="TableProvider">
+		<property name="tableName">
+			<value>sys_account</value>
+		</property>
+	</bean>
+
+	<bean id="dictProvider" parent="TableProvider">
+		<property name="tableName">
+			<value>sys_datadictionary</value>
+		</property>
+	</bean>
+	<bean id="dictDao" parent="TableDao">
+		<property name="tableName" value="sys_datadictionary" />
+		<property name="pkName" value="dd_dictname,dd_id" />
+	</bean>
+
+	<bean id="dataitemProvider" parent="TableProvider">
+		<property name="tableName">
+			<value>sys_dataitem</value>
+		</property>
+	</bean>
+	<bean id="dataitemDao" parent="TableDao">
+		<property name="tableName" value="sys_dataitem" />
+		<property name="pkName" value="di_id" />
+	</bean>
+
+	<bean id="sqlNature"
+		class="com.nantian.ofpiwap.faces.dataservice.SqlNatureDataProvider">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="dialect">
+			<bean class="${jdbc.dialect}" />
+		</property>
+	</bean>
+
+	<bean id="accountSql" parent="QueryProvider">
+		<property name="sqlString"
+			value="select account_id,account_name from sys_account" />
+		<meta key="todwr" value="true" />
+	</bean>
+	<bean id="dateTest" class="java.util.Date">
+		<meta key="todwr" value="true" />
+
+	</bean>
+
+
+	<bean id="iwapDefaultTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="com.nantian.ofpiwap.faces.transaction.TransactionManager">
+		<property name="transactionManager"
+			ref="iwapDefaultTransactionManager">
+		</property>
+	</bean>
+
+	<bean id="iwapRMIManager"
+		class="com.nantian.ofpiwap.rmi.IWAPRMIManager">
+		<property name="authenticationManager"
+			ref="beanUsedAuthenticationManager" />
+	</bean>
+	<bean id="beanDefinitionAware"
+		class="com.nantian.ofpiwap.BeanDefinitionAware">
+	</bean>
+	<bean id="rmiServerBean"
+		class="com.nantian.ofpiwap.rmi.RmiServerBean">
+		<meta key="tormi" value="true" />
+		<meta key="rmiServiceInterface"
+			value="com.nantian.ofpiwap.rmi.IRmiServerBean" />
+	</bean>
+	<!-- acegi -->
+	<bean id="daoAuthenticationProvider"
+		class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+		<property name="passwordEncoder">
+			<bean class="com.nantian.ofpiwap.secure.PasswordEncoder">
+				<property name="compareOrgPassword" value="true" />
+			</bean>
+		</property>
+		<property name="saltSource">
+			<bean
+				class="org.acegisecurity.providers.dao.salt.ReflectionSaltSource">
+				<property name="userPropertyToUse" value="getAccountId" />
+			</bean>
+		</property>
+
+		<property name="userDetailsService" ref="jdbcDaoImpl" />
+		<!--
+			<property name="userCache">
+			<bean class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+			<property name="cache">
+			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+			<property name="cacheManager">
+			<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+			</property>
+			<property name="cacheName" value="userCache"/>
+			</bean>
+			</property>
+			</bean>
+			</property>
+		-->
+	</bean>
+
+
+	<bean id="jdbcDaoImpl"
+		class="com.nantian.ofpiwap.secure.IWAPUserService">
+		<property name="rolePrefix" value="MODULE_" />
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="usersByUsernameQuery">
+			<value>
+				SELECT
+				ACCOUNT_ID,ACCOUNT_PASSWORD,ACCOUNT_STATUS,account_Inv_Date,ACCOUNT_NAME
+				FROM sys_account where ACCOUNT_ID=?
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				SELECT
+				sys_accountrole.ACCOUNT_ID,sys_rolemodule.MODULE_ID FROM
+				sys_accountrole,sys_role,sys_rolemodule where
+				sys_role.ROLE_ID=sys_accountrole.ROLE_ID and
+				sys_role.ROLE_ID=sys_rolemodule.ROLE_ID and
+				sys_accountrole.ACCOUNT_ID=?
+			</value>
+		</property>
+	</bean>
+	<bean id="beanUsedAuthenticationManager"
+		class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="daoAuthenticationProvider" />
+				<bean
+					class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+					<property name="key" value="changeThis" />
+				</bean>
+				<bean
+					class="org.acegisecurity.providers.rememberme.RememberMeAuthenticationProvider">
+					<property name="key" value="changeThis" />
+				</bean>
+			</list>
+		</property>
+
+
+	</bean>
+	<bean id="accessDecisionManager"
+		class="org.acegisecurity.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<bean class="com.nantian.ofpiwap.secure.ModuleVoter" />
+				<bean class="org.acegisecurity.vote.AuthenticatedVoter" />
+				<bean
+					class="com.nantian.ofpiwap.secure.SupervisorVoter" />
+
+			</list>
+		</property>
+	</bean>
+	<bean id="methodSecurityInterceptor"
+		class="org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
+		<property name="authenticationManager">
+			<ref bean="beanUsedAuthenticationManager" />
+		</property>
+		<property name="accessDecisionManager">
+			<ref bean="accessDecisionManager" />
+		</property>
+		<property name="objectDefinitionSource">
+			<bean
+				class="com.nantian.ofpiwap.secure.IWAPMethodDefinitionMap" />
+		</property>
+	</bean>
+	<bean id="textConfigAttributeProvider"
+		class="com.nantian.ofpiwap.secure.TextConfigAttributeProvider">
+		<property name="methodProvider" value="true"></property>
+		<property name="order" value="1000"></property>
+		<property name="text">
+			<!-- 对代理的类的方法开始配置权限 -->
+			<value>
+				java.util.Date.*=IS_AUTHENTICATED_ANONYMOUSLY
+				com.nantian.ofpiwap.rmi.IRmiServerBean.getPassword1=IS_AUTHENTICATED_ANONYMOUSLY
+				com.nantian.ofpiwap.rmi.IRmiServerBean.getPassword2=IS_AUTHENTICATED_REMEMBERED
+				com.nantian.ofpiwap.rmi.IRmiServerBean.getPassword3=MODULE_UserMgr
+			</value>
+		</property>
+	</bean>
+	<bean id="beanNameAutoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>dateTest</value>
+				<value>rmiServerBean</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>methodSecurityInterceptor</value>
+			</list>
+		</property>
+	</bean>
+</beans>

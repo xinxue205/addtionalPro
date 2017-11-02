@@ -1,0 +1,27 @@
+# Properties file with JDBC-related settings.
+# Applied by PropertyPlaceholderConfigurer from "dataAccessContext-local.xml".
+# Targeted at system administrators, to avoid touching the context XML files.
+
+#do Oracle10g JDBC 
+jdbc.driverClassName=oracle.jdbc.OracleDriver
+jdbc.url=jdbc:oracle:thin:@10.30.5.50:1521:orcl
+jdbc.username=iwapdemo
+jdbc.password=iwapdemo
+jdbc.dialect=org.hibernate.dialect.Oracle9iDialect
+
+#do MySql JDBC 
+#jdbc.driverClassName=com.mysql.jdbc.Driver
+#jdbc.url=jdbc:mysql://localhost:3306/fuws_bank
+#jdbc.username=root
+#jdbc.password=root
+#jdbc.dialect=org.hibernate.dialect.MySQLDialect
+#jdbc.jndiName=java:comp/env/jdbc/fuws_bank
+
+#do Informix JDBC
+#jdbc.driverClassName=com.informix.jdbc.IfxDriver
+#jdbc.url=jdbc:informix-sqli://197.20.1.3:7510/fuwsdb:INFORMIXSERVER=online_dcchouse;NEWLOCALE=en_us,zh_cn;NEWCODESET=GB2312,8859-1,819
+#jdbc.url=jdbc:informix-sqli://197.20.1.3:7510/fuws_test:INFORMIXSERVER=online_dcchouse;NEWLOCALE=en_us,zh_cn;NEWCODESET=GB2312,8859-1,819
+#jdbc.url=jdbc:informix-sqli://197.20.1.3:7510/fuws_test1:INFORMIXSERVER=online_dcchouse;NEWLOCALE=en_us,zh_cn;NEWCODESET=GB2312,8859-1,819
+#jdbc.username=fuws
+#jdbc.password=fuws
+#jdbc.dialect=org.hibernate.dialect.InformixDialect

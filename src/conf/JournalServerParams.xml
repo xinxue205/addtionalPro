@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RootConfig>
+	<JournalServerConfig>
+		<!-- 电子流水服务器类型 branch分行电子流水服务器 -->
+		<JournalServerType>branch</JournalServerType>
+		<!-- 电子流水服务器IP地址 -->
+		<JournalServerIP>128.128.201.135</JournalServerIP>
+		<!-- 电子流水服务器监听端口 -->
+		<JournalServerPort>25115</JournalServerPort>
+		<JournalServerAcceptCounts>5</JournalServerAcceptCounts>
+		<JournalServerMaxQueueSize>-1</JournalServerMaxQueueSize>
+		<!-- 通知多少天内没有上传成功的设备 -->
+		<JournalJobDay>3</JournalJobDay>
+		<JournalThreadInterval>30000</JournalThreadInterval>
+		<!-- 连接到ATM端电子流水提取服务的超时设置 -->
+		<AtmcJournalServerConnectionTimeout>600000</AtmcJournalServerConnectionTimeout>
+		<!-- ATM端电子流水提取服务监听端口 -->
+		<AtmcJournalServerPort>9985</AtmcJournalServerPort>
+		<!-- 连接到分行电子流水服务器的超时设置 -->
+		<BranchJournalServerConnectionTimeout>200000</BranchJournalServerConnectionTimeout>
+		<!-- 分行电子流水服务器端口 -->
+		<BranchJournalServerPort>26115</BranchJournalServerPort>
+		<!-- 要求通知上传电子流水的设备类型 -->
+		<JouranlJobDevClass>1,2,3,4</JouranlJobDevClass>
+		<!-- 要求通知上传电子流水的设备运行类型 -->
+		<JouranlJobDevRunFlag>0,1,2</JouranlJobDevRunFlag>
+		<!-- 电子流水上传状态日志保留天数 -->
+		<JournalUploadLogReserveDay>0</JournalUploadLogReserveDay>
+		<!-- 定时提取流水报文并发数 -->
+		<PlanUploadCount>5</PlanUploadCount>
+		<!-- 定时提取流水报文达到并发数停顿的时间间隔 -->
+		<PlanUploadInterval>3</PlanUploadInterval>
+		<!-- 需要定时发送的分行的分行号 -->
+		<BranchOneList>110000000,120000000,130000000,140000000,150000000,210000000,212000000,220000000,230000000,310000000,320000000,322000000,330000000,331000000,340000000,350000000,351000000,360000000,370000000,371000000,410000000,420000000,422000000,430000000,440000000,442000000,450000000,460000000,500000000,510000000,520000000,530000000,540000000,610000000,620000000,630000000,640000000,650000000</BranchOneList>
+	</JournalServerConfig>
+	<JournalTransResultCodeConfig>
+		<Success>0000</Success>
+		<Error>1000</Error>
+		<CreateFileError>1001</CreateFileError>
+		<FileNotFound>1002</FileNotFound>
+		<WriteFileError>1003</WriteFileError>
+		<ReadFileError>1004</ReadFileError>
+		<FieldError>1005</FieldError>
+		<MD5Error>1006</MD5Error>
+		<TermCodeListFormatError>1007</TermCodeListFormatError>
+		<TimeFormatError>1008</TimeFormatError>
+		<PackageError>1010</PackageError>
+	</JournalTransResultCodeConfig>
+	<JournalServerFileConfig>
+		<JournalServerFilePath>JournalData</JournalServerFilePath>
+		<!-- 电子流水服务器临时文件存放目录 -->
+		<JournalServerTempFileDirectory>Temp</JournalServerTempFileDirectory>
+		<!-- 电子流水服务器临时文件保留天数 -->
+		<JournalServerTempFileReserveDay>1</JournalServerTempFileReserveDay>
+		<!-- 电子流水查阅器临时文件存放目录 -->
+		<JournalViewerTempFilePath>ViewTemp</JournalViewerTempFilePath>
+		<!-- 电子流水查阅器临时文件保留天数 -->
+		<JournalViewerTempFileReserveDay>1</JournalViewerTempFileReserveDay>
+		<JournalServerFileDateFormat>yyyyMMdd</JournalServerFileDateFormat>
+		<!-- 电子流水交易时数据块最大值 -->
+		<JournalServerMsgContainsDataMax>6144</JournalServerMsgContainsDataMax>
+		<!--  电子流水交易非数据块最大值-->
+		<JournalServerMsgNoContainsDataMax>1024</JournalServerMsgNoContainsDataMax>
+		<!-- 报文数据域最大值 -->
+		<JournalServerDataBlockMax>1024</JournalServerDataBlockMax>
+		<!-- 电子流水XML交易报文编码 -->
+		<JournalXMLMsgEncoding>UTF-8</JournalXMLMsgEncoding>
+		<JournalXMLMsgRootName>root</JournalXMLMsgRootName>
+	</JournalServerFileConfig>
+	<!-- 电子流水服务器版本号 -->
+	<JournalServerVersion>1.0.0.2</JournalServerVersion>
+</RootConfig>

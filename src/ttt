@@ -1,0 +1,31 @@
+
+F3: 打开申明（Open declaration）    f4:打开类型层次结构
+Shift+enter在当前行之下创建一个空白行。Ctrl+shift+enter则在当前行之前插入空白行。
+
+Alt+方向键 将当前行的内容往上或下移动
+Alt-left arrow: 在导航历史记录（Navigation History）中后退; Alt-right arrow
+alt+shift+r 集体重命名
+alt+shift+l以及alt+shift+m：提取本地变量及方法
+Alt+Shift+ up/down 关联选择增加、减少
+Alt+？ 可用变量   alt+shift+?  可用方法
+Alt+Shift+O(或点击工具栏Toggle Mark Occurrences钢笔按钮) 同名参数高亮
+Alt+Shift+C 修改函数结构(比较实用,有N个函数调用了这个方法,修改一次搞定) 
+Alt+Shift+F 把Class中的local变量变为field变量 (比较实用的功能) 
+Alt+Shift+I 合并变量(可能这样说有点不妥Inline)Alt+Shift+V 移动函数和变量(不怎么常用)Alt+Shift+Z 重构的后悔药(Undo)
+
+Ctrl+T 查看一个类的继承关系树，是自顶向下的，再多按一次Ctrl+T, 会换成自底向上的显示结构
+Ctrl-Q: 回到最后一次编辑的地方。
+ctrl+o：快速outline  
+Ctrl+m 是编辑器窗口最大化
+ctrl+.及ctrl+1：下一个错误及快速修改
+ctrl+.将光标移动至当前文件中的下一个报错处或警告处。一般与ctrl+1一并使用，即修改建议的快捷键
+ctrl+e：快速转换编辑器
+Ctrl-Shift-T: 打开类; ctrl+shift+r：打开资源
+Ctrl-Shift-G: 在workspace中搜索引用（reference）
+Ctrl-Shift-F: CodeàJavaàPreferencesà根据代码风格设定重新格式化代码
+Ctrl+Shift+K 查找上一个  Ctrl+K 查找下一个 
+Ctrl+Shift+W/ctrl+f6 切换编辑器
+Ctrl+Shift+F7 上一个视图
+Ctrl+PgUp对于代码窗口是打开“Show List”下拉框，在此下拉框里显示有最近曾打开的文件
+Ctrl+Shift+M(先把光标放在需导入包的类名上) 作用是加Import语句
+Ctrl+Shift+O作用是缺少的Import语句被加入，多余的Import语句被删除。

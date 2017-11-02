@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/conf/common.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="filterChainProxy"
+		class="org.acegisecurity.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+				/**=concurrentSessionFilter,httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
+			</value>
+		</property>
+	</bean>
+
+	<bean id="httpSessionContextIntegrationFilter"
+		class="org.acegisecurity.context.HttpSessionContextIntegrationFilter">
+		<property name="forceEagerSessionCreation" value="true"></property>
+	</bean>
+	<bean id="concurrentSessionFilter"
+		class="org.acegisecurity.concurrent.ConcurrentSessionFilter">
+		<property name="sessionRegistry">
+			<ref local="sessionRegistry" />
+		</property>
+		<property name="expiredUrl" value="${expiredPage}"></property>
+	</bean>
+
+	<bean id="logoutFilter"
+		class="org.acegisecurity.ui.logout.LogoutFilter">
+		<constructor-arg value="${logoutWelcomeURL}" />
+		<!-- URL redirected to after logout -->
+		<constructor-arg>
+			<list>
+			
+				<ref bean="rememberMeServices" />
+				<bean
+					class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="authenticationProcessingFilter"
+		class="com.nantian.ofpiwap.secure.AuthenticationProcessingFilter">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="authenticationFailureUrl"
+			value="${loginPage}?login_error=1" />
+		<property name="defaultTargetUrl" value="${loginWelcomeURL}" />
+		<property name="filterProcessesUrl"
+			value="/j_acegi_security_check" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+		<property name="exceptionMappings">
+			<value>
+				org.acegisecurity.BadCredentialsException=${loginPage}?login_error=2
+				org.acegisecurity.concurrent.ConcurrentLoginException=${loginPage}?login_error=3
+				org.acegisecurity.InsufficientAuthenticationException=${loginPage}?login_error=4
+			</value>
+		</property>
+		<property name="authenticationDetailsSource">
+			<bean
+				class="org.acegisecurity.ui.AuthenticationDetailsSourceImpl">
+				<property name="clazz"
+					value="com.nantian.ofpiwap.secure.IWAPWebAuthenticationDetails" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="securityContextHolderAwareRequestFilter"
+		class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter" />
+	<bean id="rememberMeProcessingFilter"
+		class="org.acegisecurity.ui.rememberme.RememberMeProcessingFilter">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+	</bean>
+	<bean id="anonymousProcessingFilter"
+		class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
+		<property name="key" value="changeThis" />
+		<property name="userAttribute"
+			value="anonymousUser,ROLE_ANONYMOUS" />
+	</bean>
+	<bean id="exceptionTranslationFilter"
+		class="com.nantian.ofpiwap.secure.IWAPExceptionTranslationFilter">
+		<property name="tryLogin" value="${tryLogin}" />
+		<property name="authenticationEntryPoint">
+			<bean
+				class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+				<property name="loginFormUrl" value="${loginPage}" />
+				<property name="forceHttps" value="false" />
+			</bean>
+		</property>
+		<property name="accessDeniedHandler">
+			<bean
+				class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
+				<property name="errorPage" value="${accessDeniedPage}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="filterInvocationInterceptor"
+		class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+
+		<property name="accessDecisionManager"
+			ref="accessDecisionManager" />
+
+		<property name="objectDefinitionSource">
+			<bean
+				class="com.nantian.ofpiwap.secure.IWAPInvocationDefinitionMap" />
+		</property>
+
+	</bean>
+	<bean id="rememberMeServices"
+		class="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices">
+		<property name="userDetailsService" ref="jdbcDaoImpl" />
+		<property name="key" value="changeThis" />
+	</bean>
+
+	<bean id="authenticationManager"
+		class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref bean="daoAuthenticationProvider" />
+				<bean
+					class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+					<property name="key" value="changeThis" />
+				</bean>
+				<bean
+					class="org.acegisecurity.providers.rememberme.RememberMeAuthenticationProvider">
+					<property name="key" value="changeThis" />
+				</bean>
+			</list>
+		</property>
+		<property name="sessionController">
+			<ref bean="concurrentSessionController" />
+		</property>
+
+	</bean>
+	<bean id="concurrentSessionController"
+		class="com.nantian.ofpiwap.secure.ConcurrentSessionControllerImpl">
+		<property name="maximumSessions"
+			value="${accountMaximumSessions}" />
+
+		<property name="sessionRegistry">
+			<ref local="sessionRegistry" />
+		</property>
+		<property name="exceptionIfMaximumExceeded"
+			value="${exceptionIfMaximumSessions}" />
+	</bean>
+	<bean id="sessionRegistry"
+		class="com.nantian.ofpiwap.secure.SessionRegistryImpl" />
+
+	
+	<!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
+	<bean id="loggerListener"
+		class="org.acegisecurity.event.authentication.LoggerListener" />
+	<bean id="securityListener"
+		class="com.nantian.ofpiwap.secure.MyApplicationListener" />
+
+	<bean
+		class="com.nantian.ofpiwap.secure.FileConfigAttributeProvider">
+		<property name="methodProvider" value="false"></property>
+		<property name="order" value="1000"></property>
+		<property name="file" value="${securityFile}"/>
+	</bean>
+	
+	<bean
+		class="com.nantian.ofpiwap.secure.TextConfigAttributeProvider">
+		<property name="methodProvider" value="false"></property>
+		<property name="order" value="1000"></property>
+		<property name="text">
+			 
+			<value>
+				/toMainFrame.do=IS_AUTHENTICATED_REMEMBERED
+				/mainframe.jsp=IS_AUTHENTICATED_REMEMBERED
+				/toAccmgr_append.do=MODULE_AppendUser
+				/toStandardFrame.do=IS_AUTHENTICATED_REMEMBERED
+				/toMenu.do=IS_AUTHENTICATED_REMEMBERED
+				/toOnlinemgr.do=IS_AUTHENTICATED_REMEMBERED
+				/toRolemgr_main.do=IS_AUTHENTICATED_REMEMBERED
+				/toAccmgr_main.do=MODULE_UserMgr		
+				/toAccmgr_*=MODULE_UserMgr
+				/accmgr=MODULE_SystemMgr
+				/blue/**=IS_AUTHENTICATED_REMEMBERED
+				/secure/**=IS_AUTHENTICATED_REMEMBERED
+				
+				/dwr.object/JDateCore.*=MODULE_SystemMgr
+				/dwr.object/accountDao.deleteFromObject=MODULE_DeleteUser
+				/dwr.object/accountDao.*=MODULE_UserMgr
+			</value>
+		</property>
+	</bean>			
+	<bean
+		class="com.nantian.ofpiwap.secure.TextConfigAttributeProvider">
+		<property name="methodProvider" value="false"></property>
+		<property name="order" value="4000"></property>
+		<property name="text">
+			 
+			<value>
+				/dwr.object/**=IS_AUTHENTICATED_ANONYMOUSLY
+				/**=IS_AUTHENTICATED_ANONYMOUSLY
+			</value>
+		</property>
+	</bean>		
+
+</beans>

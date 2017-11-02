@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+	<bean id="functionTemplate" abstract="true"
+		class="com.nantian.ofpiwap.faces.pagetemplate.FunctionTemplate">
+		<property name="operations">
+			<list>
+				<bean class="com.nantian.ofpiwap.srv.popedom.Module">
+					<property name="moduleId">
+						<value>$[functionId]_add</value>
+					</property>
+					<property name="moduleName">
+						<value>新增</value>
+					</property>
+				</bean>
+				<bean class="com.nantian.ofpiwap.srv.popedom.Module">
+					<property name="moduleId">
+						<value>$[functionId]_modify</value>
+					</property>
+					<property name="moduleName">
+						<value>修改</value>
+					</property>
+				</bean>
+				<bean class="com.nantian.ofpiwap.srv.popedom.Module">
+					<property name="moduleId">
+						<value>$[functionId]_detail</value>
+					</property>
+					<property name="moduleName">
+						<value>查看</value>
+					</property>
+				</bean>
+				<bean class="com.nantian.ofpiwap.srv.popedom.Module">
+					<property name="moduleId">
+						<value>$[functionId]_delete</value>
+					</property>
+					<property name="moduleName">
+						<value>删除</value>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- jsp模板。 -->
+	<bean id="simpleFunction" abstract="true"
+		parent="functionTemplate">
+		<property name="pages">
+			<map>
+				<entry key="query" value="/pt/query_pt.jsp" />
+				<entry key="add" value="/pt/add_pt.jsp" />
+				<entry key="modify" value="/pt/modify_pt.jsp" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- ftl模板。 -->
+	<bean id="simpleFtlTemplate" abstract="true"
+		parent="functionTemplate">
+		<property name="pages">
+			<map>
+				<entry key="query" value="pt/simpleQueryPt.ftl" />
+				<entry key="add" value="pt/simpleAddPt.ftl" />
+				<entry key="modify" value="pt/simpleModifyPt.ftl" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="abstractPns" abstract="true"
+		class="com.nantian.ofpiwap.faces.pagetemplate.BasicPageSet">
+		<property name="pages">
+			<map>
+				<entry key="query" value="/pt/pns_pt.jsp" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="deptPns" parent="abstractPns">
+		<property name="beanName">
+			<value>deptPns</value>
+		</property>
+		<property name="variables">
+			<map>
+				<entry key="dataProvider" value="myaccount" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 应用模板的例子，使用jsp展现。
+		<bean id="accountMng" parent="simpleFunction">
+		<property name="functionId">
+		<value>accountMng</value>
+		</property>
+		<property name="functionName">
+		<value>帐号管理</value>
+		</property>
+		<property name="functionEntry">
+		<value>query</value>
+		</property>
+		<property name="version">
+		<value>1</value>
+		</property>
+		<property name="parentFolderId">
+		<value>SystemMgr</value>
+		</property>
+		<property name="variables">
+		<map>
+		<entry key="dataProvider" value="myaccount" />
+		<entry key="dao" value="myaccountDao" />
+		<entry key="conditionForm"
+		value="/customPage/conditionForm.jsp" />
+		<entry key="navigator" value="/pt/navigator.jsp" />
+		<entry key="canModify" value="true" />
+		<entry key="modify" value="/customPage/modify.jsp" />
+		<entry key="canViewDetail" value="true" />
+		<entry key="canDelete" value="true" />
+		<entry key="add" value="/customPage/add.jsp" />
+		</map>
+		</property>
+		</bean>
+	-->
+
+	<!-- 应用模板的例子，使用freemaker展现。
+		<bean id="simpleAccountMng" parent="simpleFtlTemplate">
+		<property name="functionId">
+		<value>simpleAccountMng</value>
+		</property>
+		<property name="functionName">
+		<value>简单帐号管理</value>
+		</property>
+		<property name="functionEntry">
+		<value>query</value>
+		</property>
+		<property name="version">
+		<value>1</value>
+		</property>
+		<property name="parentFolderId">
+		<value>SystemMgr</value>
+		</property>
+		<property name="variables">
+		<map>
+		<entry key="dataProvider" value="myaccount" />
+		<entry key="dao" value="myaccountDao" />
+		<entry key="navigator" value="demo/navigator.ftl" />
+		<entry key="conditionForm" value="demo/conditionForm.ftl" />
+		<entry key="add" value="demo/add.ftl" />
+		<entry key="canModify" value="true" />
+		<entry key="canViewDetail" value="true" />
+		<entry key="modify" value="demo/modify.ftl" />
+		<entry key="canDelete" value="true" />
+		</map>
+		</property>
+		</bean>
+	-->
+</beans>

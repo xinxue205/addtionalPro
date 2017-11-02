@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ClassList>
+	<class id="folderSizeGetter" value="xml.FolderSizeGetter" desc="获取文件夹容量大小"/>
+	<class id="test" value="xml.Test" desc="XML测试"/>
+	<class id="classLoder" value="loaderAndReflection.CommonLoader" desc="类加载器"/>
+</ClassList>

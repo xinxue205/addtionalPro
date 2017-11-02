@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="ftlConfig"
+		class="com.nantian.ofpiwap.IWAPFreeMarkerConfigurer">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+	</bean>
+	<bean abstract="true" id="FreeMarkerView"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerView">
+		<property name="encoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="contentType">
+			<value>text/html;charset=UTF-8</value>
+		</property>
+	</bean>
+	<bean id="themeResolver"
+		class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<property name="defaultThemeName" value="blue" />
+	</bean>
+	<bean id="iwapcoreUrlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="themeChangeInterceptor" />
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+				<prop key="/downloadTest.do">downloadTest</prop>
+				<prop key="/error.do">error</prop>
+				<prop key="/toShowException.do">toShowException</prop>
+				<prop key="/commonJxlView.do">commonJxlView</prop>
+				<prop key="/commonTextView.do">commonTextView</prop>
+				<prop key="/myEncryptView.do">myEncryptView</prop>
+				<prop key="/downloadConfig.do">downloadConfig</prop>
+				<prop key="/tabConfigDialog.do">tabConfigDialog</prop>
+				<prop key="/**/*.jspx">jspxController</prop>
+				<prop key="/pt/*/*.do">pageTemplateController</prop>
+				<prop key="/pns.do">pns</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="ftlSimpleView" parent="FreeMarkerView"
+		scope="prototype">
+		<property name="url">
+			<value>pt/empty.ftl</value>
+		</property>
+	</bean>
+	<bean id="pageTemplateController"
+		class="com.nantian.ofpiwap.faces.pagetemplate.PageTemplateController">
+		<property name="pageTemplateHelper">
+			<ref bean="pageTemplateHelper" />
+		</property>
+	</bean>
+
+	<bean id="pns" class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<ref bean="pnsView" />
+		</property>
+	</bean>
+	<bean id="pnsView" parent="FreeMarkerView">
+		<property name="url">
+			<value>common/pns.ftl</value>
+		</property>
+	</bean>
+
+	<bean id="toShowException"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<ref bean="showException" />
+		</property>
+	</bean>
+	<bean id="showException" parent="FreeMarkerView">
+		<property name="url">
+			<value>common/showException.ftl</value>
+		</property>
+	</bean>
+
+	<bean id="jspxController"
+		class="com.nantian.ofpiwap.faces.JspXController">
+		<property name="jspPrefix">
+			<value>/jsp/</value>
+		</property>
+
+	</bean>
+	<bean id="themeChangeInterceptor"
+		class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />
+
+	<bean id="commonJxlView"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<bean
+				class="com.nantian.ofpiwap.faces.export.CommonDataProviderJxlView">
+			</bean>
+		</property>
+	</bean>
+	<bean id="commonTextView"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<bean
+				class="com.nantian.ofpiwap.faces.export.CommonDataProviderTextView">
+			</bean>
+		</property>
+	</bean>
+	<bean id="myEncryptView"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<bean
+				class="com.nantian.ofpiwap.faces.export.MyEncryptView">
+			</bean>
+		</property>
+	</bean>
+	<bean id="downloadTest"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<bean
+				class="com.nantian.ofpiwap.faces.DownloadFileViewTest">
+				<property name="mypath">
+					<value>c:/aaa.txt</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="downloadConfig"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<ref bean="common.downloadConfig" />
+		</property>
+	</bean>
+	<bean id="common.downloadConfig" parent="FreeMarkerView">
+		<property name="url">
+			<value>common/downloadConfig.ftl</value>
+		</property>
+	</bean>
+	<bean id="tabConfigDialog"
+		class="com.nantian.ofpiwap.SimpleController">
+		<property name="view">
+			<ref bean="common.tabConfigDialog" />
+		</property>
+	</bean>
+	<bean id="common.tabConfigDialog" parent="FreeMarkerView">
+		<property name="url">
+			<value>common/tabConfigDialog.ftl</value>
+		</property>
+	</bean>
+	<bean id="error" class="com.nantian.ofpiwap.ErrorController">
+
+	</bean>
+	<bean id="iwapExceptionResolver"
+		class="com.nantian.ofpiwap.faces.IWAPExceptionResolver">
+
+		<property name="warnLogCategory" value="iwap.web" />
+		<property name="defaultErrorView" value="${errorPage}" />
+		<property name="order" value="999" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.io.Exception">${errorPage}</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+</beans>

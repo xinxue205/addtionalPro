@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	
+	 <bean id ="lowerToUpper" class="spring.LowerToUpper">
+        <property name="dataSource">
+           <ref bean="dataSource" />
+        </property>
+        <property name="client">
+           <ref bean="wfclient" />
+        </property>
+		<meta key="todwr" value="true"/>
+    </bean>
+    
+	<bean id="lowerToUpper" class="spring.LowerToUpper" >
+	</bean>
+	
+	
+	<bean id="upperToLower" class="spring.UpperToLower">
+	</bean>
+	
+</beans>
