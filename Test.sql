@@ -1,1 +1,1 @@
-select * from log_trans01;
+select * from log_trans01asdf;
