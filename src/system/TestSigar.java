@@ -4,6 +4,7 @@
 package system;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,10 +56,20 @@ public class TestSigar {
 		map.put("os_desc", OS.getDescription());
 		map.put("os_name", OS.getName());
 		
+		String str1 = null;
+		try {
+			InetAddress localInetAddress = InetAddress.getLocalHost();
+			str1 = localInetAddress.getHostName();
+		} catch (Exception localException) {
+		}
+		System.out.println(String.format("%02X", new Object[] { new Integer(Math.abs(str1.hashCode()) % 256) }));
+		
 		String currPath = System.getProperty("user.dir");
 		File file = new File(currPath);
 		map.put("disk_path", currPath);
-		map.put("disk_total", Long.toString(file.getTotalSpace()));
+		String disk_total = Long.toString(file.getTotalSpace());
+		System.out.println(String.format("%02X", new Object[] { new Integer(Math.abs(disk_total.hashCode()) % 256)  }));
+		map.put("disk_total", disk_total);
 		map.put("disk_used", Long.toString(file.getFreeSpace()));
 		map.put("disk_free", Long.toString(file.getFreeSpace()));
 		

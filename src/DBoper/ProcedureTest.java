@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import oracle.jdbc.driver.OracleCallableStatement;
-import oracle.jdbc.driver.OracleTypes;
+import oracle.jdbc.OracleCallableStatement;
+import oracle.jdbc.OracleTypes;
 
 public class ProcedureTest {
 	

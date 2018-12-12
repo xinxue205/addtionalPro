@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,7 +16,7 @@ public class MysqlTest {
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://192.168.15.82:3306/sdi", "sdi", "sdi123");
+			con = DriverManager.getConnection("jdbc:mysql://192.168.15.48:3306/sdi", "sdi", "sdi@123");
 			con.setAutoCommit(false); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -24,6 +25,32 @@ public class MysqlTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		String sql = "select max(col5) as selectTimeSql FROM wxx_test2 where col5<= now()"; // 表
+        PreparedStatement preparedStatement = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY );
+        preparedStatement.setMaxRows( 1 );
+        ResultSet rs = preparedStatement.executeQuery(sql);
+	      while (rs.next()) {
+	          System.out.println("time:"+rs.getTimestamp(1)); // 取得第二列的值
+	      }
+	}
+	
+	public static void main4(String[] args) throws Exception {
+		String sql = "select * from wxx_test1"; // 表
+//		PreparedStatement preparedStatement = con.prepareStatement(sql);
+//        preparedStatement.setMaxRows( 1 );
+//        ResultSetMetaData rsmd = preparedStatement.getMetaData();
+        PreparedStatement preparedStatement = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY );
+        preparedStatement.setMaxRows( 1 );
+        ResultSetMetaData resultMetaData = preparedStatement.getMetaData();
+        int columnCount = resultMetaData.getColumnCount();
+        System.out.println(columnCount);
+//        ResultSet rs = preparedStatement.executeQuery(sql);
+//	      while (rs.next()) {
+//	          System.out.println("oject_id:"+rs.getInt(1)+",oject_name:"+rs.getString(2)); // 取得第二列的值
+//	      }
+	}
+	
+	public static void main3(String[] args) throws Exception {
 		PreparedStatement stmt = con.prepareStatement("DELETE FROM wxx_test WHERE user_id = ? "); 
 
 		stmt.setString(1, "2"); 

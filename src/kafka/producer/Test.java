@@ -1,13 +1,10 @@
 package kafka.producer;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
 import kafka.javaapi.producer.Producer;
-import kafka.producer.KeyedMessage;
-import kafka.producer.ProducerConfig;
 
 /**
  * 详细可以参考：https://cwiki.apache.org/confluence/display/KAFKA/0.8.0+Producer+Example
@@ -17,16 +14,16 @@ import kafka.producer.ProducerConfig;
 public class Test {
 	public static void main(String[] args) {
 		Random rnd = new Random();
-		int events=100;
+		int events=5;
 
 		// 设置配置属性
 		Properties props = new Properties();
-		props.put("metadata.broker.list","172.168.63.221:9092,172.168.63.233:9092,172.168.63.234:9092");
+		props.put("metadata.broker.list","localhost:9092");
 		props.put("serializer.class", "kafka.serializer.StringEncoder");
 		// key.serializer.class默认为serializer.class
 		props.put("key.serializer.class", "kafka.serializer.StringEncoder");
 		// 可选配置，如果不配置，则使用默认的partitioner
-		props.put("partitioner.class", "com.catt.kafka.demo.PartitionerDemo");
+//		props.put("partitioner.class", "com.catt.kafka.demo.PartitionerDemo");
 		// 触发acknowledgement机制，否则是fire and forget，可能会引起数据丢失
 		// 值为0,1,-1,可以参考
 		// http://kafka.apache.org/08/configuration.html

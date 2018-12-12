@@ -3,11 +3,15 @@ package MD5;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class MD5Test {
 	
 	public static void main(String[] args) {
-		Md5("12345");
-		Md5("12312312312312");
+		System.out.println(DigestUtils.md5Hex("750302318220171124110000FH7BQ016553302219800418162120171124104027"));
+		System.out.println(DigestUtils.md5Hex("750302318220171124110000FH7BQ016653302220000102162220171124104027"));
+//		Md5("750302318220171124110000FH7BQ016553302219800418162120171124104027");
+//		Md5("12312312312312");
 	}
 	
 	private static void Md5(String plainText ) {

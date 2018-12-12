@@ -1,3 +1,6 @@
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +19,10 @@ class TestP{
 	public void setType(int type) {
 		this.type = type;
 	}
+	
+	public int getType() {
+		return this.type ;
+	}
 }
 
 class Test3 extends TestP{
@@ -29,11 +36,60 @@ class Test3 extends TestP{
 	}
 }
 public class Test {
+	
+	
 	String test = "123";
+	public static void main2(String[] args) {
+		System.out.println(8255213568L/1024/1024);
+		System.out.println(new Date(1528236600000L));
+		String instanceId = "6";
+		String sql = "SELECT ct.configuration_code,c.config_value "
+				+ "FROM t_config c INNER JOIN t_config_type ct ON "
+				+ "c.config_type_id = ct.config_id WHERE c.group_id IN "
+				+ "(SELECT group_id FROM t_role_entity WHERE role_entity_id = "+instanceId+") "
+				+ "OR c.role_entity_id = "+instanceId;
+		System.out.println(sql);
+	}
+	
 	public static void main(String args[]){
-		List list = new ArrayList();
-		list.add("");
-		System.out.println(list.get(1));
+		Date date = new Date(1543213556055L);
+		System.out.println(date);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+		System.out.println(sdf.format(new Date(1541528596991L)));
+		Long cutime = System.currentTimeMillis(); // Œ¢√Î
+		Long cutime1 = System.currentTimeMillis(); // Œ¢√Î
+		Long nanoTime = System.currentTimeMillis(); 
+		System.out.println(cutime + "-" + cutime1 +"-" + nanoTime);
+		cutime = System.nanoTime(); // Œ¢√Î
+		cutime1 = System.nanoTime(); // Œ¢√Î
+		nanoTime = System.nanoTime(); 
+		System.out.println(cutime + "-" + cutime1 +"-" + nanoTime);
+		System.out.println((int)(Math.random()*90000)+10000);
+		Long d = 154079465975418888L;
+		BigDecimal b = new BigDecimal(d);
+		System.out.println(b);
+		double d1 = d.doubleValue();
+		long d2 = (long) d1;
+		long d3 = b.longValue();
+		System.out.println(d1);
+		System.out.println(d2);
+		System.out.println(d3);
+//		System.out.println(new Date(9999999999999L));
+//		System.out.println(new Date(9223372036854775807L));
+//		System.out.println("priority".indexOf(" or "));
+//		String str= "script|mid|master|truncate|insert|select |update|declare|iframe|'|onready|statechange|alert|atestu|xss|;|'|\"|<|>|\\|svg|confirm|prompt|onload|onmouseover|onfocus|onerror|having|..|/|and| or |%";
+//	    String[] s = str.split("\\|");
+//	    for (int i = 0; i < s.length; i++) {
+//			System.out.println(s[i]);
+//		}
+//		String m1 = str.substring(2,4);
+//    	String m2 = str.substring(4,6);
+//    	System.out.println(m1+ ":" +m2);
+//		System.out.println(String.valueOf((char)58));
+//		System.out.println(String.valueOf((char)32));
+//		List list = new ArrayList();
+//		list.add("");
+//		System.out.println(list.get(0));
 //		Map map = new HashMap();
 //		System.out.println(map.get(null));
 //		System.out.println(new Date(1463025945000L));

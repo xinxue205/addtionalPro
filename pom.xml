@@ -27,6 +27,12 @@
     </plugins>
   </build>
   
+	<properties>
+		<curator.version>2.11.1</curator.version>
+		<zookeeper.version>3.4.8</zookeeper.version>
+		<logback.version>1.1.7</logback.version>
+	</properties>
+  
   <dependencies>
   <!-- https://mvnrepository.com/artifact/microsoft/sqljdbc -->
 <dependency>
@@ -34,7 +40,14 @@
     <artifactId>sqljdbc</artifactId>
     <version>1.2-fixed</version>
 </dependency>
-  
+  	<!-- <dependency> 
+		    <groupId>com.sun</groupId> 
+		    <artifactId>tools</artifactId> 
+		    <version>1.7.0</version> 
+		    <scope>system</scope> 
+		    <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath> 
+		    <optional>true</optional> 
+		</dependency> -->
   	<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -172,18 +185,25 @@
 	    <version>9.3-1102-jdbc4</version>
 	</dependency>
 	
+	
+	<dependency>
+	  <groupId>com.oracle</groupId>
+	  <artifactId>ojdbc6</artifactId>
+	  <version>11.2.0.3</version>
+	</dependency> 
+	<!-- 
 	<dependency>
 	  <groupId>com.hnisi.syj</groupId>
 	  <artifactId>ojdbc14</artifactId>
 	  <version>10.2.0.4</version>
 	</dependency>
 	
-<!-- <dependency>
-  <groupId>com.oracle</groupId>
-  <artifactId>ojdbc6</artifactId>
-  <version>11.2.0.3</version>
-</dependency> -->
-	
+	<dependency>
+	  <groupId>com.oracle</groupId>
+	  <artifactId>ojdbc7</artifactId>
+	  <version>12.1.0.1</version>
+	</dependency>
+	-->
 	<!-- https://mvnrepository.com/artifact/jexcelapi/jxl -->
 	<dependency>
 	    <groupId>jexcelapi</groupId>
@@ -360,16 +380,67 @@
     <artifactId>ifxtools</artifactId>
     <version>1.0.0</version>
 </dependency>		
-	<dependency>
+<dependency>
   <groupId>com.gbase</groupId>
   <artifactId>gbase-connector-java</artifactId>
-  <version>8.3.81.53-build52.6</version>
+  <version>8.3.81.53-build54.1</version>
   <classifier>bin</classifier>
-</dependency>	
+</dependency>
 <dependency>
   <groupId>commons-vfs</groupId>
   <artifactId>commons-vfs</artifactId>
   <version>20100924-pentaho</version>
-</dependency>	
+</dependency>
+<dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>${zookeeper.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+           <version>${curator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-x-discovery</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
   </dependencies>  
 </project>

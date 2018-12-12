@@ -8,10 +8,10 @@ import java.net.URLClassLoader;
 
 public class Test {
 	public static void main1(String[] args) throws ClassNotFoundException {
-		System.out.println(Class.forName("loader.ClassLoaderAttachment").getName());;
+		System.out.println(Class.forName("loaderAndReflection.ClassLoaderAttachment").getName());;
 		ClassLoaderAttachment cla = new ClassLoaderAttachment();
 		System.out.println(cla.toString());;
-		System.out.println(Class.forName("loader.CommonLoader").getName());;
+		System.out.println(Class.forName("loaderAndReflection.CommonLoader").getName());;
 		CommonLoader cl = new CommonLoader();
 		cl.sayHello();
 	}
