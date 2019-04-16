@@ -1,10 +1,10 @@
 package DBoper;
 
-import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * 
@@ -26,17 +26,17 @@ public class BatchedInsert {
 	/**
 	 * 总插入条数.
 	 */
-	static int rowCount = 50000; // 插入总条数
+	static int rowCount = 20000000; // 插入总条数
 	
 	/**
 	 * 一次提交条数.
 	 */
-	static int commitCount = 1;// 多少条提交一次 可以根据jvm配置的内存堆大小来调整这个数值，这个数值的大小跟性能有关，推荐65535提交一次。
+	static int commitCount = 50000;// 多少条提交一次 可以根据jvm配置的内存堆大小来调整这个数值，这个数值的大小跟性能有关，推荐65535提交一次。
 	
 	/*
 	 * create table tgbase (c1 varchar(100), c2 varchar(100), c3 varchar(100),c4 varchar(100),c5 varchar(100),c6 varchar(100),c7 varchar(100),c8 varchar(100),c9 varchar(100),c10 varchar(100));
 	 */
-	static String sql = "INSERT INTO a_test VALUES (?,?,?,?,?)";
+	static String sql = "INSERT INTO a_testt VALUES (?,?,?,?,?)";
 //	static String sql = "INSERT INTO GZMZ_JJHD_SQ_SQRXX_A (YB) VALUES ( ?)";//INSERT INTO GZMZ_JJHD_SQ_SQRXX_A VALUES (?)
 
 	/**
@@ -54,8 +54,8 @@ public class BatchedInsert {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String url = "jdbc:oracle:thin:@192.168.14.7:1521:SJZ10G";//"jdbc:gbase://192.168.15.116:5258/test?rewriteBatchedStatements=true";
-		conn = DriverManager.getConnection(url, "test001", "test001");
+		String url = "jdbc:oracle:thin:@192.168.16.9:1521:ora10";//"jdbc:gbase://192.168.15.116:5258/test?rewriteBatchedStatements=true";
+		conn = DriverManager.getConnection(url, "sdi_test", "sdi_test");
 //    	conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.14.4:1521:zxjck", "pcs_kettle_yfzx","pcs_kettle_yfzx");  
 
 		//jdbc:gbase://192.168.15.116:5258/test?rewriteBatchedStatements=true
@@ -63,14 +63,15 @@ public class BatchedInsert {
 		pstmt = conn.prepareStatement(sql);
 		try {
 
-			for (int i = 0; i < rowCount; i++) {
+			for (int i = 10000000; i < rowCount; i++) {
 				pstmt.setString(1, "c100000000000000000000000000000000000000000000000000000000000000000000000000000000_" + i);
 				pstmt.setInt(2, i);
-				pstmt.setString(3, "c200000000000000000000000000000000000000000000000000000000000000000000000000000000_" + i);
+				pstmt.setString(3, UUID.randomUUID().toString() + "_" + i);
 				pstmt.setString(4, "c300000000000000000000000000000000000000000000000000000000000000000000000000000000_" + i);
 				pstmt.setString(5, "c400000000000000000000000000000000000000000000000000000000000000000000000000000000_" + i);
 				pstmt.addBatch();
 				if (i != 0 && (i % commitCount == 0)) {
+					System.out.println("curr linenr:" + i);
 					pstmt.executeBatch();
 					conn.commit();
 					pstmt.clearBatch();

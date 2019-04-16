@@ -16,7 +16,7 @@ public class MysqlTest {
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://192.168.15.48:3306/sdi", "sdi", "sdi@123");
+			con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi", "sdi", "sdi@123");
 			con.setAutoCommit(false); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -25,13 +25,15 @@ public class MysqlTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String sql = "select max(col5) as selectTimeSql FROM wxx_test2 where col5<= now()"; // 表
-        PreparedStatement preparedStatement = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY );
-        preparedStatement.setMaxRows( 1 );
-        ResultSet rs = preparedStatement.executeQuery(sql);
-	      while (rs.next()) {
-	          System.out.println("time:"+rs.getTimestamp(1)); // 取得第二列的值
-	      }
+		int i = 0;
+		while (true){
+			i++;
+			int state = (int) (1+Math.random()*100000);
+			String sql = "replace r_job_last_t values("+ state +","+ state +", now())"; // 表
+	        PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);//传入参数：
+	     	System.out.println(String.valueOf(i) + ":" +  pstmt.execute(sql));
+	        con.commit();
+		}
 	}
 	
 	public static void main4(String[] args) throws Exception {

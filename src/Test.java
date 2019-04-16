@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.pentaho.di.core.KettleEnvironment;
 import org.pentaho.di.core.encryption.Encr;
@@ -51,29 +53,42 @@ public class Test {
 		System.out.println(sql);
 	}
 	
+	
+	protected static String getSlowAlarm() {
+		double percent = 86D*100/90;
+		if(percent>85){
+			return ", current step is slow , cache used: " + String.format("%.2f", percent)  + "%";
+		}
+		return "";
+	}
+	
 	public static void main(String args[]){
-		Date date = new Date(1543213556055L);
-		System.out.println(date);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
-		System.out.println(sdf.format(new Date(1541528596991L)));
-		Long cutime = System.currentTimeMillis(); // Œ¢√Î
-		Long cutime1 = System.currentTimeMillis(); // Œ¢√Î
-		Long nanoTime = System.currentTimeMillis(); 
-		System.out.println(cutime + "-" + cutime1 +"-" + nanoTime);
-		cutime = System.nanoTime(); // Œ¢√Î
-		cutime1 = System.nanoTime(); // Œ¢√Î
-		nanoTime = System.nanoTime(); 
-		System.out.println(cutime + "-" + cutime1 +"-" + nanoTime);
-		System.out.println((int)(Math.random()*90000)+10000);
-		Long d = 154079465975418888L;
-		BigDecimal b = new BigDecimal(d);
-		System.out.println(b);
-		double d1 = d.doubleValue();
-		long d2 = (long) d1;
-		long d3 = b.longValue();
-		System.out.println(d1);
-		System.out.println(d2);
-		System.out.println(d3);
+		System.out.println(getSlowAlarm());
+//		Pattern patternSource = Pattern.compile( ".*\\.zip" );
+//		Matcher matcher = patternSource.matcher( "www.zip" );
+//        System.out.println(matcher.matches());
+//		Date date = new Date(1543213556055L);
+//		System.out.println(date);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+//		System.out.println(sdf.format(new Date(1541528596991L)));
+//		Long cutime = System.currentTimeMillis(); // Œ¢√Î
+//		Long cutime1 = System.currentTimeMillis(); // Œ¢√Î
+//		Long nanoTime = System.currentTimeMillis(); 
+//		System.out.println(cutime + "-" + cutime1 +"-" + nanoTime);
+//		cutime = System.nanoTime(); // Œ¢√Î
+//		cutime1 = System.nanoTime(); // Œ¢√Î
+//		nanoTime = System.nanoTime(); 
+//		System.out.println(cutime + "-" + cutime1 +"-" + nanoTime);
+//		System.out.println((int)(Math.random()*90000)+10000);
+//		Long d = 154079465975418888L;
+//		BigDecimal b = new BigDecimal(d);
+//		System.out.println(b);
+//		double d1 = d.doubleValue();
+//		long d2 = (long) d1;
+//		long d3 = b.longValue();
+//		System.out.println(d1);
+//		System.out.println(d2);
+//		System.out.println(d3);
 //		System.out.println(new Date(9999999999999L));
 //		System.out.println(new Date(9223372036854775807L));
 //		System.out.println("priority".indexOf(" or "));
