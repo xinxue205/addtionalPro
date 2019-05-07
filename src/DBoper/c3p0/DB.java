@@ -25,6 +25,12 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
  */
 public class DB {
 	
+	public static void main(String[] args) {
+		String querySql = "SELECT * FROM cpu_info WHERE code=?";
+		Map map = DB.queryForMap(querySql, new String[]{"300770"});
+		System.out.println(map.get("name"));
+	}
+	
 	/**
 	 * 数据源对象
 	 */

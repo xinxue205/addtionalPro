@@ -35,11 +35,28 @@
   
   <dependencies>
   <!-- https://mvnrepository.com/artifact/microsoft/sqljdbc -->
-<dependency>
-    <groupId>microsoft</groupId>
-    <artifactId>sqljdbc</artifactId>
-    <version>1.2-fixed</version>
-</dependency>
+	<dependency>
+	    <groupId>microsoft</groupId>
+	    <artifactId>sqljdbc</artifactId>
+	    <version>1.2-fixed</version>
+	</dependency>
+	<dependency>
+	    <groupId>io.jaegertracing</groupId>
+	    <artifactId>jaeger-core</artifactId>
+	    <version>0.35.0</version>
+	</dependency>
+	<dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.7.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.7.3</version>
+      <scope>test</scope>
+    </dependency>
   	<!-- <dependency> 
 		    <groupId>com.sun</groupId> 
 		    <artifactId>tools</artifactId> 
@@ -127,12 +144,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>4.1.7.RELEASE</version>
-    </dependency>
-	<dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
 		<groupId>org.apache.geronimo.bundles</groupId>

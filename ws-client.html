@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>BarrageClient</title>
+		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	</head>
+	
+	<body>
+		
+		<div class="container" style="padding-top:20px;">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Barrage</h3>
+				</div>
+				<div class="panel-body" id="content"></div>
+			</div>
+			<hr/>
+			<input type="text" class="form-control" placeholder="msg" aria-describedby="sizing-addon1" id="msg">
+			<hr/>
+			
+			<hr/>
+			<button type="button" class="btn btn-lg btn-success btn-block" onclick="emit()">Emit</button>
+		</div>
+		
+		<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" >
+			var websocketAddr = "ws://192.168.13.49:8080/websocket";
+			
+			var socket = new WebSocket(websocketAddr);
+			$(function() {
+				listen();
+			})
+
+			function emit() {
+				var text = encodeScript($("#msg").val());
+				var msg = {
+					"message" : text,
+					"color" : "#CECECE",
+					"bubbleColor" : "#2E2E2E",
+					"fontSize" : "12",
+					"fontType" : "黑体"
+				};
+				msg = JSON.stringify(msg);
+
+				socket.send(msg);
+				
+				$("#content").append("<kbd style='color: #" + "CECECE" + ";float: right; font-size: " + 12 + ";'>" + text +  "</kbd><br/>");
+				$("#msg").val("");
+			}
+
+			function listen() {
+				socket.onopen = function() {
+					$("#content").append("<kbd>Welcome!</kbd></br>");
+				};
+				socket.onmessage = function(evt) {
+					var data = JSON.parse(evt.data);
+					console.log(data);
+					$("#content").append("<kbd style='margin-top: 10px;'>"+ new Date().Format("yyyy-MM-dd hh:mm:ss") + ":" + evt.data +"</kbd></br>");
+				};
+				socket.onclose = function(evt) {
+					$("#content").append("<kbd>" + "Close!" + "</kbd></br>");
+				}
+				socket.onerror = function(evt) {
+					$("#content").append("<kbd>" + "ERROR!" + "</kbd></br>");
+				}
+			}
+
+			function encodeScript(data) {
+				if(null == data || "" == data) {
+					return "";
+				}
+				return data.replace("<", "&lt;").replace(">", "&gt;");
+			}
+
+			Date.prototype.Format = function (fmt) { //author: meizz 
+				var o = {
+					"M+": this.getMonth() + 1, //月份 
+					"d+": this.getDate(), //日 
+					"h+": this.getHours(), //小时 
+					"m+": this.getMinutes(), //分 
+					"s+": this.getSeconds(), //秒 
+					"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+					"S": this.getMilliseconds() //毫秒 
+				};
+				if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				return fmt;
+			}
+
+			document.onkeydown = function(event){
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				if(e && e.keyCode == 13){ // enter 键
+					emit();
+				}
+			};
+		</script>
+	</body>
+</html>
