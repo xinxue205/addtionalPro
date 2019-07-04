@@ -1,4 +1,4 @@
-package IO1;
+package IO;
 
 import java.io.*;
 //把f:/java/TestInput.txt中的内容读出后写入f:/java/TestOutput.txt

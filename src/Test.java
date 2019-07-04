@@ -41,7 +41,13 @@ public class Test {
 	
 	
 	String test = "123";
-	public static void main2(String[] args) {
+	public static void main(String[] args) {
+		System.out.println("sh123456".substring(2));
+		String e = null;
+		String message = e == null ? "null exception" : e.toString();
+System.out.println("small exception occurs:" + message);
+System.out.println(new Date(1559615078558L));//1557818582171
+System.out.println(new Date(1559615138557L));//1557818582171
 		System.out.println(8255213568L/1024/1024);
 		System.out.println(new Date(1528236600000L));
 		String instanceId = "6";
@@ -62,7 +68,7 @@ public class Test {
 		return "";
 	}
 	
-	public static void main(String args[]){
+	public static void main2(String args[]){
 		System.out.println(getSlowAlarm());
 //		Pattern patternSource = Pattern.compile( ".*\\.zip" );
 //		Matcher matcher = patternSource.matcher( "www.zip" );

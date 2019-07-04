@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class UdpClient {
 	   
     private String sendStr = "hello";
-    private String netAddress = "255.255.255.255";
+    private String netAddress = "192.168.68.47"; //指定地址192.168.68.47，也可以用本网广播地址：255.255.255.255，或者指定广播地址192.168.68.255
     private final int PORT = 5060;
    
     private DatagramSocket datagramSocket;
