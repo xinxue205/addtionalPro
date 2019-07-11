@@ -23,7 +23,7 @@ public class ServerLauncher {
 		ServiceParameter.init();
 		SocketServerLauncher ssl = new SocketServerLauncher();
 		try {
-			ssl.open("128.128.201.135", 13330);
+			ssl.open("192.168.43.29", 13330);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -41,7 +41,7 @@ class ExecuteThread extends Thread{
 //			Thread.sleep(3000);
 //			con.commit();
 			
-			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.15.82:3306/sdi", "sdi", "sdi123");
+			Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sdi", "sdi", "sdi@123");
 			PreparedStatement ps = con.prepareStatement("lock table wxx_test write");
 			ps.execute();
 			ps = con.prepareStatement("UNLOCK TABLES");
