@@ -42,6 +42,9 @@ public class Test {
 	
 	String test = "123";
 	public static void main(String[] args) {
+		byte a[] = {'a','1'};
+		System.out.println("sŒ“√«".getBytes().length);
+		
 		System.out.println("sh123456".substring(2));
 		String e = null;
 		String message = e == null ? "null exception" : e.toString();

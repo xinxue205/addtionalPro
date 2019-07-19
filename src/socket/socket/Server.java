@@ -16,6 +16,7 @@ public class Server{
 	      int port = 8899;  
 	      //定义一个ServerSocket监听在端口8899上  
 	      ServerSocket server = new ServerSocket(port);  
+	      server.setSoTimeout(111);
 	      //server尝试接收其他Socket的连接请求，server的accept方法是阻塞式的  
 	      Socket socket = server.accept();  
 	      //跟客户端建立好连接之后，我们就可以获取socket的InputStream，并从中读取客户端发过来的信息了。  

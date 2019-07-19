@@ -10,19 +10,41 @@ package thread;
  * @CopyRight (c) 2014 xxxx¹«Ë¾ 
  */
 public class StartThreadEnd extends Thread{
-	@Override     
-	public void run() {  
-		for (int j = 0; j < 100; j++) {  
-			try {  
-				Thread.sleep(1000);
-				System.out.println("sleep time: "+j);
-			} catch (InterruptedException e) {
-				e.printStackTrace();  
-			}  
+
+	
+	public static void main(String[] args) {
+		Object obj = new Object();
+		TT t = new TT(obj);
+		t.start();
+		
+		t = new TT(obj);
+		t.start();
+		
+		t = new TT(obj);
+		t.start();
+	}
+	
+}
+
+class TT extends Thread{
+	Object o;
+	
+	TT(Object o){
+		this.o = o;
+	}
+	@Override
+	public void run() {
+		while (true){
+//			synchronized (o) {
+//				System.out.println(Thread.currentThread().getName()+":111");
+//				System.out.println(Thread.currentThread().getName()+":222");
+//			}
+				mRun();
 		}
 	}
 	
-	public static void main(String[] args) {
-		
+	public static synchronized void mRun(){
+		System.out.println(Thread.currentThread().getName()+":111");
+		System.out.println(Thread.currentThread().getName()+":222");
 	}
 }

@@ -4,14 +4,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class Json2Map {
 	
 	public static void main(String[] args) {
-		Map map = toHashMap("{'01':'name', '02':'id', 'pwd':'place'}");
-		System.out.println(map);
-		System.out.println(map.get("01"));
+		String s = "{ allCount: '3', serviceID: 'abcd-1234', comment: '≤‚ ‘ ˝æ›', data: [{ id: '01', name: 'aa' }, { id: '02', name: 'bb' }, { id: '03', name: 'cc' } ] }";
+		JSONObject jsonObject = JSONObject.fromObject(s);
+		
+		JSONArray ja = (JSONArray)jsonObject.get("data");
+		System.out.println(((JSONObject)ja.get(1)).get("name"));
+//		System.out.println(map.get("data"));
 	}
 	private static Map toHashMap(Object object) {  
 	    Map data = new HashMap();  

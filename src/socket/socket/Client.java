@@ -20,6 +20,7 @@ public class Client {
 	      int port = 8899;   //要连接的服务端对应的监听端口  
 	      //与服务端建立连接  
 	      Socket client = new Socket(host, port);  
+	      client.setSoTimeout(111);
 	      //建立连接后就可以往服务端写数据了  
 	      Writer writer = new OutputStreamWriter(client.getOutputStream());  
 	      writer.write("Hello Server.");  
