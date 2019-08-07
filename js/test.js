@@ -11,6 +11,6 @@ func();
 
 var func1 = function(){
 	console.log(this);
-}.bind(4);
+}.bind(4);//bind后，该对象不会再发生变化
 func1.bind(5);
 func1();
