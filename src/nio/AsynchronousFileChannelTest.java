@@ -66,5 +66,7 @@ public class AsynchronousFileChannelTest {
 		        exc.printStackTrace();
 		    }
 		});
+		
+		Thread.sleep(10000);//不sleep，finish不一定打印出来
 	}
 }
