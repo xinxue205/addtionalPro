@@ -1,4 +1,4 @@
-package machine;
+package system;
 
 import java.io.BufferedReader;
 import java.io.IOException;

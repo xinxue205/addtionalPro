@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ArrayList;
@@ -42,6 +43,13 @@ public class Test {
 	
 	String test = "123";
 	public static void main(String[] args) {
+		String unformattedString = "Updating database connection '{0}' ";
+		String[] parameters = {"name1"};
+		String string = MessageFormat.format( unformattedString, parameters );
+//		String string = MessageFormat.format("oh, {0} is 'a' pig", "ZhangSan"); 
+
+		System.out.println(string);
+		
 		System.out.println(new Date(1564004400000L));
 		byte a[] = {'a','1'};
 		System.out.println("sŒ“√«".getBytes().length);

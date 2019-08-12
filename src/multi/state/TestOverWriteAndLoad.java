@@ -3,22 +3,25 @@ package multi.state;
 public class TestOverWriteAndLoad {
 	public static void main(String[] args) {
 		BigChair bc = new BigChair();
-		bc.use();
+		bc.hasLegs(4);
 		Chair c1 = (Chair) bc;
-		c1.use();
+		c1.hasLegs();
 		Chair c2 = new Chair();
-		c2.use();
+		c2.hasLegs();
 	}
 }
 
 interface Usable{
-	void use();
-	void put();
+	void use();//接口的方法范围只能是默认或public
 }
 
-class Chair{
-	void use(){
+class Chair implements Usable{
+	public void use(){//实现接口的方法范围必须是public
 		System.out.println("Chair is using");
+	}
+	
+	void hasLegs() {
+		System.out.println("Chair has Legs");
 	}
 }
 
@@ -27,13 +30,16 @@ class BigChair extends Chair implements Usable{
 		System.out.println("Bigchair is using");
 	}
 	
-	String use(String name){
-		System.out.println("Bigchair" + name + " is using");
-		return name;
+	protected void hasLegs() {//不能用private修饰，范围不能比要重写的方法窄
+		System.out.println("BigChair has big legs");
 	}
-
-	public void put() {
-		// TODO Auto-generated method stub
-		
+	
+	void hasLegs(int count){
+		System.out.println("Bigchair(legs:" + count + ") hasLegs");
 	}
+	
+//	int hasLegs(int count){//参数列表决定是否重名重写，返回值不影响
+//		System.out.println("Bigchair(legs:" + count + ") hasLegs");
+//		return count;
+//	}
 }
