@@ -31,9 +31,15 @@
 		<curator.version>2.11.1</curator.version>
 		<zookeeper.version>3.4.8</zookeeper.version>
 		<logback.version>1.1.7</logback.version>
+	  	<netty.version>4.1.6.Final</netty.version>
 	</properties>
   
   <dependencies>
+    <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-all</artifactId>
+        <version>${netty.version}</version>
+    </dependency>
   	<!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-all -->
   	<dependency>
 		<groupId>org.luaj</groupId>
@@ -428,7 +434,13 @@
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>${zookeeper.version}</version>
-        </dependency>
+            <exclusions>
+            	<exclusion>
+            		<groupId>io.netty</groupId>
+            		<artifactId>netty</artifactId>
+            	</exclusion>
+            </exclusions>
+</dependency>
 
         <dependency>
             <groupId>org.apache.curator</groupId>
