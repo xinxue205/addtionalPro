@@ -6,6 +6,25 @@
 </head>
 <body>
   <div id="app"></div>
-  <script src="dist/bundle.js"></script>
+  <script src="app.js"></script>
+  <script type="text/javascript">
+  	function getClothing(isCold) {
+	  if (isCold) {
+	    var freezing = 'Grab a jacket!';
+	    console.log(freezing);
+	  } else {
+	    var hot = 'It is a shorts kind of day.';
+	    console.log(freezing);
+	  }
+	}
+	getClothing(false);
+	const gemstone = {
+	  type: 'quartz',
+	  //color: 'rose',
+	  karat: 21.29
+	};
+	const {type, color, karat, ttt} = gemstone;
+	console.log(type, color, karat, ttt);
+  </script>
 </body>
 </html>
