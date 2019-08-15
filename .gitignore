@@ -1,3 +1,4 @@
 /target/
 /bin/
 js/reactdome/node_modules
+js/learn-webpack/node_modules
