@@ -47,8 +47,8 @@ public class Test {
 		String[] parameters = {"name1"};
 		String string = MessageFormat.format( unformattedString, parameters );
 //		String string = MessageFormat.format("oh, {0} is 'a' pig", "ZhangSan"); 
-
-		System.out.println(string);
+		  String newTimer=System.nanoTime()+""+((int)(Math.random()*900)+100);
+		System.out.println(newTimer);
 		
 		System.out.println(new Date(1564004400000L));
 		byte a[] = {'a','1'};

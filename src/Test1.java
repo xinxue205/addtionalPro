@@ -1,12 +1,10 @@
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.pentaho.di.core.database.DatabaseMeta;
 
 
 public class Test1 {
 	public static void main(String[] args) {
+		String newTimer=System.nanoTime()+""+((int)(Math.random()*900)+100);
+		System.out.println(newTimer);
 		String url = "jdbc:mysql:thin:@192.168.1.1:1521/asfd";
 		int index = url.indexOf("/");
 		if(index > 0 ){
