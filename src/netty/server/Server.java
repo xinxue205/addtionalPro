@@ -4,7 +4,8 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;  
 import io.netty.channel.ChannelInitializer;  
 import io.netty.channel.ChannelOption;  
-import io.netty.channel.EventLoopGroup;  
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;  
 import io.netty.channel.socket.SocketChannel;  
 import io.netty.channel.socket.nio.NioServerSocketChannel;  
@@ -20,8 +21,9 @@ public class Server {
   
     public void bind(int port) throws Exception {  
         // 配置NIO线程组  
-        EventLoopGroup bossGroup = new NioEventLoopGroup();  
-        EventLoopGroup workerGroup = new NioEventLoopGroup();  
+//        EventLoopGroup bossGroup = new NioEventLoopGroup();  
+        EventLoopGroup bossGroup = new EpollEventLoopGroup();//epoll实现
+        EventLoopGroup workerGroup = new NioEventLoopGroup();//nio实现
         try {  
             // 服务器辅助启动类配置  
             ServerBootstrap b = new ServerBootstrap();  
