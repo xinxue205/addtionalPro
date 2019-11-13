@@ -4,7 +4,7 @@ import java.util.regex.*;
 
 public class TestPattern {
 	public static void main(String[] args) {
-		p("a".matches("a"));
+		p("safsadf.json".matches("*.json"));
 		p("a".matches("a+"));
 		
 		String s1="s434dfÎÒd666f";

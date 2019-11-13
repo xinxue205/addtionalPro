@@ -60,8 +60,8 @@ public class Test {
             scheduler.start();
 
             //运行一段时间后关闭
-            Thread.sleep(50000);
-            scheduler.shutdown(true);
+//            Thread.sleep(50000);
+//            scheduler.shutdown(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

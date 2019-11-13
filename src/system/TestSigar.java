@@ -41,6 +41,9 @@ public class TestSigar {
 		map.put("mem_total", Long.toString(mem.getTotal()));
 		map.put("mem_used", Long.toString(mem.getUsed()));
 		map.put("mem_free", Long.toString(mem.getFree()));
+		map.put("mem_free1", Long.toString(mem.getActualFree()));
+		map.put("mem_free2", Long.toString(mem.getActualUsed()));
+		
 		
 		if(cpuInfos.length>0){
 			map.put("cpu_no", Integer.toString(cpuInfos.length));
