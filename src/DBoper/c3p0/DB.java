@@ -11,11 +11,15 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.collections.map.ListOrderedMap;
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.util.LinkedCaseInsensitiveMap;
+
+import com.esotericsoftware.minlog.Log;
 
 /**
  * 数据库操作类
@@ -24,11 +28,29 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
  * @time 2015年8月13日 上午10:48:32
  */
 public class DB {
+	private static Logger LOG = Logger.getLogger(DB.class); // 日志记录器
+
 	
-	public static void main(String[] args) {
-		String querySql = "SELECT * FROM cpu_info WHERE code=?";
-		Map map = DB.queryForMap(querySql, new String[]{"300770"});
-		System.out.println(map.get("name"));
+	public static void main(String[] args) throws Exception {
+		for (int i=0; i<10 ; i++) {
+			new Thread() {
+				public void run() {
+					String querySql = "SELECT * FROM r_user WHERE ID_USER=2";
+					Map map = DB.queryForMap(querySql);
+					LOG.info(map.get("NAME"));
+				};
+			}.start();
+			Thread.sleep(3 * 1000);
+			new Thread() {
+				public void run() {
+					String querySql = "SELECT * FROM r_user WHERE ID_USER=2";
+					Map map = DB.queryForMap(querySql);
+					LOG.info(map.get("NAME"));
+				};
+			}.start();
+			Thread.sleep(4 * 1000);
+		}
+//		Thread.sleep(600*1000);
 	}
 	
 	/**
@@ -113,9 +135,9 @@ public class DB {
 	 *            查询语句
 	 * @return
 	 */
-	public static ListOrderedMap queryForMap(String sql) {
-		ListOrderedMap map = new ListOrderedMap();
-		map = (ListOrderedMap) jdbcTemplate
+	public static LinkedCaseInsensitiveMap queryForMap(String sql) {
+//		ListOrderedMap map = new ListOrderedMap();
+		LinkedCaseInsensitiveMap map = (LinkedCaseInsensitiveMap) jdbcTemplate
 				.queryForMap(sql);
 		
 		return map;
@@ -191,9 +213,9 @@ public class DB {
 	 * @param sql 查询语句
 	 * @return
 	 */
-	public static String[] queryForLineStringArray(String sql) {
-		return convertMapToArray(queryForMap(sql));
-	}
+//	public static String[] queryForLineStringArray(String sql) {
+//		return convertMapToArray(queryForMap(sql));
+//	}
 	
 	/**
 	 * 查找结果集中一列的数据
