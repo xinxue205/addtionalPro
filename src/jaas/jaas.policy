@@ -1,0 +1,15 @@
+grant codeBase "file:D:/work/workspace-src/addtional_pro/src/jaas/*" {
+        //permission java.security.AllPermission;
+ 
+        permission javax.security.auth.AuthPermission "createLoginContext.Sample";
+        permission javax.security.auth.AuthPermission "modifyPrincipals";
+        permission javax.security.auth.AuthPermission "doAsPrivileged";
+};
+ 
+grant codeBase "file:D:/work/workspace-src/addtional_pro/src/jaas/*",
+        Principal jaas.SamplePrincipal "user" {
+ 
+   permission java.util.PropertyPermission "java.home", "read";
+   permission java.util.PropertyPermission "user.home", "read";
+   permission java.io.FilePermission "foo.txt", "read";
+};
