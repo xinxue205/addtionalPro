@@ -32,9 +32,27 @@
 		<zookeeper.version>3.4.8</zookeeper.version>
 		<logback.version>1.1.7</logback.version>
 	  	<netty.version>4.1.6.Final</netty.version>
+	  	<spring.version>4.1.7.RELEASE</spring.version>
 	</properties>
   
   <dependencies>
+	<dependency>
+	    <groupId>org.apache.tika</groupId>
+	    <artifactId>tika-parsers</artifactId>
+	    <version>1.18</version>
+	    <exclusions>
+	    	<exclusion>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi</artifactId>
+	    		<version>3.17</version>
+	    	</exclusion>
+	    </exclusions>
+	</dependency>
+	 <dependency>
+	 	<groupId>org.apache.poi</groupId>
+   		<artifactId>poi</artifactId>
+   		<version>3.9</version>
+	 </dependency>	
     <dependency>
         <groupId>io.netty</groupId>
         <artifactId>netty-all</artifactId>
@@ -50,16 +68,37 @@
 		  <groupId>pentaho-kettle</groupId>
 		  <artifactId>kettle-core</artifactId>
 		  <version>8.2.0.5-625</version>
-		</dependency>
+		  <exclusions>
+		  	<exclusion>
+		  		<groupId>commons-io</groupId>
+		  		<artifactId>commons-io</artifactId>
+		  	</exclusion>
+		  </exclusions>
+	</dependency>
 		<dependency>
 		  <groupId>pentaho-kettle</groupId>
 		  <artifactId>kettle-engine</artifactId>
 		  <version>8.2.0.5-625</version>
+		  <exclusions>
+		  	<exclusion>
+		  		<groupId>commons-io</groupId>
+		  		<artifactId>commons-io</artifactId>
+		  	</exclusion>
+		  	<exclusion>
+		  		<groupId>org.apache.poi</groupId>
+		  		<artifactId>poi</artifactId>
+		  	</exclusion>
+		  </exclusions>
 		</dependency>
 	<dependency>
 	    <groupId>org.apache.activemq</groupId>
 	    <artifactId>activemq-all</artifactId>
 	    <version>5.8.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.rabbitmq</groupId>
+	    <artifactId>amqp-client</artifactId>
+	    <version>3.5.6</version>
 	</dependency>
 	  	
   <!-- https://mvnrepository.com/artifact/microsoft/sqljdbc -->
@@ -74,6 +113,11 @@
 	    <version>0.35.0</version>
 	</dependency>
 	<dependency>
+		<groupId>cn.sinobest.sdi</groupId>
+		<artifactId>sinobest-knob-core</artifactId>
+		<version>2.0.0-alpha.1</version>
+	</dependency>
+	<dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
       <version>1.7.3</version>
@@ -85,6 +129,11 @@
       <version>1.7.3</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+	    <groupId>org.apache.rocketmq</groupId>
+	    <artifactId>rocketmq-client</artifactId>
+	    <version>4.2.0</version>
+	</dependency>
   	<!-- <dependency> 
 		    <groupId>com.sun</groupId> 
 		    <artifactId>tools</artifactId> 
@@ -92,12 +141,19 @@
 		    <scope>system</scope> 
 		    <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath> 
 		    <optional>true</optional> 
-		</dependency> -->
-  	<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.34</version>
 		</dependency>
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.15</version>
+	</dependency> 
+	-->
+  	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.34</version>
+	</dependency>
+		
   	<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka_2.10</artifactId>
@@ -161,7 +217,7 @@
 	<dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
-      <version>4.1.7.RELEASE</version>
+      <version>${spring.version}</version>
     </dependency>
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
@@ -171,7 +227,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>4.1.7.RELEASE</version>
+      <version>${spring.version}</version>
     </dependency>
     <dependency>
 		<groupId>org.apache.geronimo.bundles</groupId>
@@ -254,14 +310,14 @@
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-tx</artifactId>
-	    <version>4.3.6.RELEASE</version>
+	    <version>${spring.version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-jdbc</artifactId>
-	    <version>4.3.6.RELEASE</version>
+	    <version>${spring.version}</version>
 	</dependency>
 	
 	<dependency>
@@ -280,12 +336,12 @@
 	    <artifactId>MSecurity</artifactId>
 	    <version>1.0.0</version>
 	</dependency>
-	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+	<!-- https://mvnrepository.com/artifact/commons-io/commons-io 
 	<dependency>
 	    <groupId>commons-io</groupId>
 	    <artifactId>commons-io</artifactId>
 	    <version>1.3.2</version>
-	</dependency>
+	</dependency>-->
 	<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
 	<dependency>
 	    <groupId>commons-net</groupId>
@@ -297,11 +353,23 @@
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi-scratchpad</artifactId>
 	    <version>3.9</version>
+	    <exclusions>
+	    	<exclusion>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi</artifactId>
+	    	</exclusion>
+	    </exclusions>
 	</dependency>
 	<dependency>
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi-ooxml</artifactId>
 	    <version>3.9</version>
+	    <exclusions>
+	    	<exclusion>
+	    		<groupId>org.apache.poi</groupId>
+	    		<artifactId>poi</artifactId>
+	    	</exclusion>
+	    </exclusions>
 	</dependency>	
 	<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
 	<dependency>
@@ -497,6 +565,14 @@
 		  <groupId>cn.sinobest</groupId>
 		  <artifactId>jmxtools</artifactId>
 		  <version>1.2.1</version>
-		</dependency>        
+		</dependency>   
+		
   </dependencies>  
+  <repositories>
+        <!-- <repository>
+            <id>com.e-iceblue</id>
+            <name>e-iceblue</name>
+            <url>http://repo.e-iceblue.com/nexus/content/groups/public/</url>
+        </repository>  -->
+</repositories>
 </project>

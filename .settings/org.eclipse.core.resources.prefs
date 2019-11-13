@@ -3,6 +3,7 @@ encoding//resource/file.properties=ISO-8859-1
 encoding//src/DBoper/ClobOpertTest1.java=UTF-8
 encoding//src/Test1.java=UTF-8
 encoding//src/annotation/AnnotionOperator.java=GBK
+encoding//src/cxf/WSMain.java=UTF-8
 encoding//src/jpg/ImgRotate.java=UTF-8
 encoding//src/packageInfo/Client.java=UTF-8
 encoding//src/reverse/JavaAssistTest.java=UTF-8
