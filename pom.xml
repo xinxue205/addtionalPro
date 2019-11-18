@@ -36,6 +36,12 @@
 	</properties>
   
   <dependencies>
+  	<dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.4.6</version>
+	</dependency>
+	  	
 	<dependency>
 	    <groupId>org.apache.tika</groupId>
 	    <artifactId>tika-parsers</artifactId>
@@ -52,7 +58,12 @@
 	 	<groupId>org.apache.poi</groupId>
    		<artifactId>poi</artifactId>
    		<version>3.9</version>
-	 </dependency>	
+	 </dependency>
+	<dependency>
+		<groupId>cn.n.ndi</groupId>
+		<artifactId>ndi-worker</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	</dependency>
     <dependency>
         <groupId>io.netty</groupId>
         <artifactId>netty-all</artifactId>
@@ -64,7 +75,7 @@
 		<artifactId>luaj-jse</artifactId>
 		<version>3.0.1</version>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
 		  <groupId>pentaho-kettle</groupId>
 		  <artifactId>kettle-core</artifactId>
 		  <version>8.2.0.5-625</version>
@@ -89,7 +100,12 @@
 		  		<artifactId>poi</artifactId>
 		  	</exclusion>
 		  </exclusions>
-		</dependency>
+		</dependency> -->
+	<dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>4.3.0.Final</version>
+    </dependency>
 	<dependency>
 	    <groupId>org.apache.activemq</groupId>
 	    <artifactId>activemq-all</artifactId>
@@ -137,11 +153,6 @@
 	    <groupId>io.jaegertracing</groupId>
 	    <artifactId>jaeger-core</artifactId>
 	    <version>0.35.0</version>
-	</dependency>
-	<dependency>
-		<groupId>cn.sinobest.sdi</groupId>
-		<artifactId>sinobest-knob-core</artifactId>
-		<version>2.0.0-alpha.1</version>
 	</dependency>
 	<dependency>
       <groupId>org.powermock</groupId>

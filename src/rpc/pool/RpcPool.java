@@ -1,16 +1,17 @@
 package rpc.pool;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.ndi.worker.rpc.Process;
+import org.ndi.worker.rpc.broker.WorkerBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.sinobest.knob.core.worker.WorkerBroker;
-import cn.sinobest.knob.core.worker.WorkerBroker.Client;
 
 public class RpcPool {
 	
@@ -20,12 +21,12 @@ public class RpcPool {
 	
 	boolean start(){
 		//获取监控列表
-		ConnectionInfo ci1 = new ConnectionInfo("192.168.11.115", 1081);
-		ConnectionInfo ci2 = new ConnectionInfo("192.168.11.115", 2222);
-		ConnectionInfo ci3 = new ConnectionInfo("localhost", 1081);
+		ConnectionInfo ci1 = new ConnectionInfo("192.168.11.115", 1082);
+		ConnectionInfo ci2 = new ConnectionInfo("localhost", 6667);
+		ConnectionInfo ci3 = new ConnectionInfo("localhost", 4444);
 		ConnectionInfo[] si = {ci1, ci2, ci3};
-		for (int i = 0; i < si.length; i++) {
-			ConnectionProxy monitor = new ConnectionProxy(new ConnectionInfo(si[i].getAddr(), si[i].getPort()));
+		for (ConnectionInfo i : si) {
+			ConnectionProxy monitor = new ConnectionProxy(new ConnectionInfo(i.getAddr(), i.getPort()));
 			scheduler.scheduleWithFixedDelay(monitor, 5, 5, TimeUnit.SECONDS);
 			allConnection.add(monitor);
 		}
@@ -35,26 +36,35 @@ public class RpcPool {
 	
 	
 	boolean stop() {
-		scheduler.shutdown();
 		cleanAllConnection();
+		scheduler.shutdown();
 		return true;
 		//停止监控
 	}
 
 
 	private void cleanAllConnection() {
-		// TODO Auto-generated method stub
+		for (ConnectionProxy conn : allConnection) {
+			conn.setOk(false);
+			conn.setUsing(false);
+			RpcUtil.closeQuiet(conn.getClient());
+		}
 	}
 	
-	public ConnectionProxy getAConnection() throws Exception{
-		for (int i = 0; i < allConnection.size(); i++) {
-			ConnectionProxy conn = allConnection.get(i);
-			if(!conn.getUsing() && conn.isOk()) {
+	public ConnectionProxy getAConnection() {
+		Collections.shuffle(allConnection);
+		for (ConnectionProxy conn : allConnection) {
+			if(!conn.isUsing() && conn.isOk()) {
 				conn.setUsing(true);
 				return conn;
 			}
 		} 
-		throw new Exception("all connection are inavailable!");
+		try {
+			Thread.sleep(3*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return getAConnection();
 	}
 	
 	public void returnAConnection(ConnectionProxy conn){
@@ -66,7 +76,7 @@ class ConnectionProxy implements Runnable{
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionProxy.class);
 
 	private ConnectionInfo connectionInfo;
-	private Client client;
+	private WorkerBroker.Client client;
 	private boolean using;
 	private boolean ok;
 	private long checkTime;
@@ -86,25 +96,23 @@ class ConnectionProxy implements Runnable{
 
 	@Override
 	public void run() {
-		try {
-			synchronized (this) {
-				setCheckTime(System.currentTimeMillis());
-				boolean isOk = test();
-				setOk(isOk);
-				if(!ok) {
-					RpcUtil.closeQuiet(client);
-					try {
-						LOG.debug(connectionInfo.getAddr()+":"+connectionInfo.getPort()+" try to reconnect!!!");
-						client = RpcUtil.newClient(connectionInfo.getAddr(), connectionInfo.getPort(), WorkerBroker.Client.class);
-						setOk(true);
-					} catch (Throwable e) {
-						LOG.warn(connectionInfo.getAddr()+":"+connectionInfo.getPort()+" connect error: "+e.getMessage());
-						setOk(false);
-					}
+		if(using) {
+			return;
+		}
+		synchronized (this) {
+			setCheckTime(System.currentTimeMillis());
+			boolean isOk = test();
+			setOk(isOk);
+			if(!ok) {
+				RpcUtil.closeQuiet(client);
+				try {
+					LOG.debug(connectionInfo.getAddr()+":"+connectionInfo.getPort()+" try to reconnect!!!");
+					client = RpcUtil.newClient(connectionInfo.getAddr(), connectionInfo.getPort(), WorkerBroker.Client.class);
+					setOk(true);
+				} catch (Throwable e) {
+					LOG.warn(connectionInfo.getAddr()+":"+connectionInfo.getPort()+" connect error: "+e.getMessage());
 				}
 			}
-		} catch (Throwable e) {
-			LOG.error(connectionInfo.getAddr()+":"+connectionInfo.getPort()+" connect error: ", e);
 		}
 	}
 	
@@ -114,7 +122,7 @@ class ConnectionProxy implements Runnable{
 		}
 		//测试连接
 		try {
-			client.ping("");
+			client.call(Process.TEST.getName(), "", "");
 			return true;
 		} catch (Throwable e) {
 			LOG.warn(connectionInfo.getAddr()+":"+connectionInfo.getPort()+" connect error: "+e.getMessage());
@@ -131,18 +139,18 @@ class ConnectionProxy implements Runnable{
 		this.connectionInfo = connectionInfo;
 	}
 
-	public Client getClient() {
+	public WorkerBroker.Client getClient() {
 		return client;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(WorkerBroker.Client client) {
 		this.client = client;
 	}
 
 	/**
 	 * @return the using
 	 */
-	public boolean getUsing() {
+	public boolean isUsing() {
 		return using;
 	}
 

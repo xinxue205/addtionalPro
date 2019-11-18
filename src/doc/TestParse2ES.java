@@ -2,15 +2,30 @@ package doc;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.sax.BodyContentHandler;
+import org.apache.tika.sax.WriteOutContentHandler;
 
 import com.jcraft.jsch.ChannelSftp;
 
 public class TestParse2ES {
     public static void main(String args[]) throws Exception {
-//    	System.out.println(download());
-    	System.out.println(parseDocAndToEs());
+    	FileInputStream inputStream = new FileInputStream(new File("D:/download/车票实名制核查问题排查.docx"));
+    	BodyContentHandler textHandler=new BodyContentHandler(new WriteOutContentHandler(1024*1024*1024));
+		Metadata matadata=new Metadata();
+		new AutoDetectParser().parse(inputStream, textHandler, matadata, new ParseContext());
+		inputStream.close();
+		System.out.println(matadata.get("Author"));
+    	for (String name : matadata.names()) {                                   //查看解析出的文档的元信息
+            System.out.println(name + ":" + matadata.get(name));
+        }
 	}
     
     private static boolean download() throws Exception {
@@ -22,9 +37,12 @@ public class TestParse2ES {
 		String filePath = "化学科(1-1-6)";
 		String localTmpPath = "D:/download/20191030";
 		
+
 		ChannelSftp channel = SFTPUtil.getChannel(host, port, user, pass);
-		SFTPUtil.downloadFile(channel, filePath, fileName, localTmpPath);
-		channel.disconnect();
+		List list = new ArrayList();
+		SFTPUtil.getFileList(channel, list, "体育科(1-2-10)");
+//		SFTPUtil.downloadFile(channel, filePath, fileName, localTmpPath);
+		channel.getSession().disconnect();
 		return true;
     }
     
@@ -36,8 +54,8 @@ public class TestParse2ES {
 		
 		String subjectCode = "1-1-4";
 		String now = "2019-11-11 11:13";
-		String filePath = "D:/download/20191030/";
-		String fileName = "化学.doc";
+		String filePath = "D:\\download\\20190618\\";
+		String fileName = "历史.docx";
 		int operType = 0; //0-add, 1-update, 2-delete
 		
 		String esName="";
@@ -48,6 +66,7 @@ public class TestParse2ES {
 		request.connect();
 		
 		String content = DocUtil.getContentFromStream(new FileInputStream(new File(fileFullName)));
+		System.out.println(content);
 		Map<String, String> map = new HashMap();
 		map.put("author", "sdi");
 		map.put("content", content);

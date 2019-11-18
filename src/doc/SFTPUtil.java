@@ -26,7 +26,9 @@ public class SFTPUtil {
 		return (ChannelSftp)channel;  
 	}
 	
+	@SuppressWarnings("unused")
 	public static void getFileList(ChannelSftp sftpChannel, List list, String path) throws Exception{
+		sftpChannel.pwd();
 		Iterator it = sftpChannel.ls(path).iterator();
 	    while (it.hasNext())
 	    {
@@ -47,7 +49,7 @@ public class SFTPUtil {
 	    		long doc_atime = ls.getAttrs().getATime()*1000L;
 	    		long doc_mtime = ls.getAttrs().getMTime()*1000L;
 	    		String doc_desc = "";
-				list.add(doc_name);
+				list.add(path+"/"+fileName);
 	    	}
 	    }
 	}
