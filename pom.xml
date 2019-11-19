@@ -63,6 +63,12 @@
 		<groupId>cn.n.ndi</groupId>
 		<artifactId>ndi-worker</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
+	    <exclusions>
+	    	<exclusion>
+	    		<groupId>javassist</groupId>
+	    		<artifactId>javassist</artifactId>
+	    	</exclusion>
+	    </exclusions>
 	</dependency>
     <dependency>
         <groupId>io.netty</groupId>
@@ -105,6 +111,11 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>4.3.0.Final</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+  		<artifactId>hibernate-entitymanager</artifactId>
+  		<version>4.3.0.Final</version>
     </dependency>
 	<dependency>
 	    <groupId>org.apache.activemq</groupId>
