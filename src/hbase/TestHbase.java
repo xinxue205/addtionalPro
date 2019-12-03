@@ -245,6 +245,6 @@ public class TestHbase {
 		scan(TABLE_NAME);
 		System.out.println();
 		scanByrowKey(TABLE_NAME, "100002");
-		dropTable(TABLE_NAME);
+//		dropTable(TABLE_NAME);
 	}
 }

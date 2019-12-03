@@ -20,13 +20,25 @@ public class MysqlTest {
 //			Class.forName("com.mysql.cj.jdbc.Driver");
 //			con = DriverManager.getConnection("jdbc:mysql://192.168.11.79:3306/sdi", "sdi", "Sdi@1234");
 			Class.forName("com.mysql.jdbc.Driver");
-//			con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi?autoReconnect=false", "sdi", "sdi@123");
-			con = DriverManager.getConnection("jdbc:mysql:replication://127.0.0.1:3306,192.168.11.122:3306/sdi?autoReconnect=false", "sdi", "sdi@123");
+			con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi", "sdi", "sdi@123");
+//			con = DriverManager.getConnection("jdbc:mysql:replication://127.0.0.1:3306,192.168.11.122:3306/sdi?autoReconnect=false", "sdi", "sdi@123");
 			con.setAutoCommit(false); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+//		Connection con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi", "sdi", "sdi@123");
+		PreparedStatement ps = con.prepareStatement("lock table r_repository_log write");
+		ps.execute();
+//		ps = con.prepareStatement("UNLOCK TABLES");
+//		ps.execute();
+		Thread.sleep(30*1000);
+		
+		ps.close();
+		con.close();
 	}
 	
 	public static void main1(String[] args) throws Exception {
@@ -41,7 +53,7 @@ public class MysqlTest {
 		}
 	}
 	
-	public static void main(String[] args)  {
+	public static void main5(String[] args)  {
 		System.out.println(new Date());
 		String sql = "SELECT * FROM r_user WHERE ID_USER=2"; // ±í
 //		PreparedStatement preparedStatement = con.prepareStatement(sql);

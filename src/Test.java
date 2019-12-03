@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,10 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.pentaho.di.core.KettleEnvironment;
-import org.pentaho.di.core.encryption.Encr;
-import org.pentaho.di.core.exception.KettleException;
 
 class TestP{
 	int type;
@@ -43,6 +40,8 @@ public class Test {
 	
 	String test = "123";
 	public static void main(String[] args) {
+		Timestamp ts= Timestamp.valueOf("2020-11-11"+" 00:00:00");
+		System.out.println(ts);
 		String unformattedString = "Updating database connection '{0}' ";
 		String[] parameters = {"name1"};
 		String string = MessageFormat.format( unformattedString, parameters );
@@ -128,27 +127,6 @@ System.out.println(new Date(1559615138557L));//1557818582171
 //		System.out.println(new Date(1463025945000L));
 //		String[] array = "".split("\\|");
 //		System.out.println(array[0]+"+"+array[1]+"+"+array[2]);
-	}
-	
-	public static void main1(String[] args) throws KettleException {
-		KettleEnvironment.init();
-		String str = Encr.encryptPassword("123456");
-		System.out.println(str);
-		String str1 = Encr.decryptPassword(str);
-		System.out.println(str1);
-		
-		Map map = new HashMap();
-		map.put("1", new Test3("aaa"));
-		map.put("2", new Test3("bbb"));
-		Test3 val1 = (Test3) map.get("1");
-		val1.setName("ccc");;
-		Test3 val2 = (Test3) map.get("1");
-		System.out.println(val2.name);
-		Date d = new Date(1439299807554L);
-		if (d !=null)
-		System.out.println(d);
-		String b = "sdf";
-		String c = "sadf";
 	}
 	
 	
