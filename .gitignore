@@ -3,3 +3,5 @@
 js/reactdome/node_modules
 js/learn-webpack/node_modules
 logs
+.settings
+*.prefs

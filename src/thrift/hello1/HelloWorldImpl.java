@@ -1,6 +1,7 @@
 package thrift.hello1;
 
-import org.apache.thrift.TException; 
+import org.apache.thrift.TException;
+import org.apache.thrift.transport.TTransport; 
 
 /** 
  *  blog http://www.micmiu.com 
@@ -8,6 +9,7 @@ import org.apache.thrift.TException;
  */
 public class HelloWorldImpl implements HelloWorldService.Iface {
 	public HelloWorldImpl() {
+//		client = new HelloWorldImpl(trans);
 		
 	}
 	

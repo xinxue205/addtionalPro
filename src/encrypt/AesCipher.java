@@ -24,14 +24,28 @@ public class AesCipher {
         throws Exception
     {
        // String s = (new StringBuilder("UASS-SSO|")).append(getRandomString()).toString();
-    	String appCode = (new StringBuilder(String.valueOf("ATMVH"))).append("|").append(getRandomString()).toString();
-        String serc = encryptAndParseHexStr(appCode, "82d1cea67b92452fadcba9f386104b09");
+    	String appCode = "sdi1@123";//(new StringBuilder(String.valueOf("ATMVH"))).append("|").append(getRandomString()).toString();
+        String password = "sdi1";//"82d1cea67b92452fadcba9f386104b09";
+        password = lengthRevise(password);
+		String serc = encryptAndParseHexStr(appCode, password);
         System.out.println(serc);
-        String s2 = decryptAndParseStr("uasstest.co", "82d1cea67b92452fadcba9f386104b09");
+        String s2 = decryptAndParseStr(serc, password);
         System.out.println(s2);
     }
 
-    /**
+    private static String lengthRevise(String password) {
+		if(password.length()>=32) {
+			password = password.substring(0,32);
+		} else {
+			int len = 32 - password.length();
+			for (int i = 0; i < len; i++) {
+				password += "0";
+			}
+		}
+		return password;
+	}
+
+	/**
 	 * @return
 	 */
 	private static Object getRandomString() {

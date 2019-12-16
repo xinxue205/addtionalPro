@@ -51,7 +51,7 @@ public class ClientSSL {
                     .option(ChannelOption.TCP_NODELAY, true)//  
                     .handler(new MyChannelHandler());//  
             // 异步链接服务器 同步等待链接成功  
-            Channel ch = b.connect(host, port).sync().channel();  
+            final Channel ch = b.connect(host, port).sync().channel();  
   
             new Thread() {
             	@Override
