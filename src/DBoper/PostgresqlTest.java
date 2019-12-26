@@ -6,9 +6,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 public class PostgresqlTest {
 	public static void main4(String[] args) throws Exception {
@@ -82,19 +89,43 @@ public class PostgresqlTest {
 		}
 	}
 	
-	public static void main6(String[] args) throws Exception {
-		Class.forName("org.postgresql.Driver");
-		Connection connect = DriverManager.getConnection("jdbc:postgresql://192.168.15.62:5432/PsqlTest","PsqlTest","Lbn@1234");		
-		String sql = "select max(col3) as selectTimeSql FROM wxx_test where col3<= now()"; // 表
-		PreparedStatement preparedStatement = connect.prepareStatement(
-	            sql , ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY );
-		ResultSet rs = preparedStatement.executeQuery();
-	      while (rs.next()) {
-	          System.out.println("time:"+rs.getTimestamp(1)); // 取得第二列的值
-	      }
+	public static void main(String[] args) throws Exception {
+//		Class.forName("org.postgresql.Driver");
+//		Connection connect = DriverManager.getConnection("jdbc:postgresql://192.168.11.79:5432/sdi","sdi","sdi@123");		
+//		String sql = "select hostname,password,ip,octopus_port,oclocation,user,ssh_port from hosts";
+//		PreparedStatement pstmt = connect.prepareStatement(sql);
+//		String sql = "select max(col3) as selectTimeSql FROM wxx_test where col3<= now()"; // 表
+//		PreparedStatement preparedStatement = connect.prepareStatement(
+//	            sql , ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY );
+//		ResultSet rs = preparedStatement.executeQuery();
+//	      while (rs.next()) {
+//	          System.out.println("time:"+rs.getString(1)); // 取得第二列的值
+//	      }
+	     
+	      DriverManagerDataSource dm = new DriverManagerDataSource("jdbc:postgresql://192.168.11.79:5432/sdi", "sdi","sdi@123");
+	      JdbcTemplate jdbcTemplate = new JdbcTemplate(dm, false);
+	      KeyHolder keyHolder = new GeneratedKeyHolder();
+			jdbcTemplate.update(new PreparedStatementCreator() {
+				public PreparedStatement createPreparedStatement(
+						Connection connection) throws SQLException {
+					
+					PreparedStatement ps = null;
+						ps = connection.prepareStatement("insert into t_role_entity (role_entity_name, role_id, group_id, service_id, ip, cluster_id) values (?, ?, ?, ?, ?, ?)", new String [] {"role_entity_id"});
+					ps.setString(1, "t");
+					ps.setInt(2, 1);
+					ps.setInt(3, 2);
+					ps.setInt(4, 3);
+					ps.setString(5, "a");
+					ps.setInt(6, 4);
+
+					return ps;
+				}
+			}, keyHolder);
+			long i = keyHolder.getKey().longValue();
+			System.out.println(i);
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main6(String[] args) throws Exception {
 		Class.forName("org.postgresql.Driver");
 		Connection connect = DriverManager.getConnection("jdbc:postgresql://192.168.15.62:5432/PsqlTest","PsqlTest","Lbn@1234");
 //		Class.forName("com.mysql.jdbc.Driver");
