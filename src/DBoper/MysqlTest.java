@@ -17,10 +17,10 @@ public class MysqlTest {
 	static {
 		try {
 			System.out.println(new Date());
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			con = DriverManager.getConnection("jdbc:mysql://192.168.11.79:3306/sdi", "sdi", "Sdi@1234");
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi", "sdi", "sdi@123");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://192.168.11.79:3306/sdd", "sdd", "Sdd@1234");
+//			Class.forName("com.mysql.jdbc.Driver");
+//			con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi", "sdi", "sdi@123");
 //			con = DriverManager.getConnection("jdbc:mysql:replication://127.0.0.1:3306,192.168.11.122:3306/sdi?autoReconnect=false", "sdi", "sdi@123");
 			con.setAutoCommit(false); 
 		} catch (Exception e) {
@@ -29,7 +29,7 @@ public class MysqlTest {
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main4(String[] args) throws Exception {
 //		Connection con = DriverManager.getConnection("jdbc:mysql://192.168.11.122:3306/sdi", "sdi", "sdi@123");
 		PreparedStatement ps = con.prepareStatement("lock table r_repository_log write");
 		ps.execute();
@@ -46,8 +46,8 @@ public class MysqlTest {
 		while (true){
 			i++;
 			int state = (int) (1+Math.random()*100000);
-			String sql = "replace r_job_last_t values("+ state +","+ state +", now())"; // ±í
-	        PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);//´«Èë²ÎÊý£º
+			String sql = "replace r_job_last_t values("+ state +","+ state +", now())"; // ï¿½ï¿½
+	        PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	     	System.out.println(String.valueOf(i) + ":" +  pstmt.execute(sql));
 	        con.commit();
 		}
@@ -55,7 +55,7 @@ public class MysqlTest {
 	
 	public static void main5(String[] args)  {
 		System.out.println(new Date());
-		String sql = "SELECT * FROM r_user WHERE ID_USER=2"; // ±í
+		String sql = "SELECT * FROM r_user WHERE ID_USER=2"; // ï¿½ï¿½
 //		PreparedStatement preparedStatement = con.prepareStatement(sql);
 //        preparedStatement.setMaxRows( 1 );
 //        ResultSetMetaData rsmd = preparedStatement.getMetaData();
@@ -74,7 +74,7 @@ public class MysqlTest {
 		}
 //        ResultSet rs = preparedStatement.executeQuery(sql);
 //	      while (rs.next()) {
-//	          System.out.println("oject_id:"+rs.getInt(1)+",oject_name:"+rs.getString(2)); // È¡µÃµÚ¶þÁÐµÄÖµ
+//	          System.out.println("oject_id:"+rs.getInt(1)+",oject_name:"+rs.getString(2)); // È¡ï¿½ÃµÚ¶ï¿½ï¿½Ðµï¿½Öµ
 //	      }
 	}
 	
@@ -86,38 +86,39 @@ public class MysqlTest {
 		
 		stmt.setString(1, "3"); 
 		stmt.addBatch();
-		// Ìá½»ÒªÖ´ÐÐµÄÅú´¦Àí 
+		// ï¿½á½»ÒªÖ´ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 		int[] updateCounts = stmt.executeBatch();
 		System.out.print("ok");
 	}
 	
-	public static void main4(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		
-//		ResultSet rs = pstmt.getGeneratedKeys(); //»ñÈ¡½á¹û     
+//		ResultSet rs = pstmt.getGeneratedKeys(); //ï¿½ï¿½È¡ï¿½ï¿½ï¿½     
 //		if (rs.next()) {  
-//			System.out.println(rs.getInt(1));//È¡µÃID  
+//			System.out.println(rs.getInt(1));//È¡ï¿½ï¿½ID  
 //		} 
 		class Insert extends Thread{
 			public void run() {
 				try {
 					String pre = "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
 					String log = "";
+					String tName = Thread.currentThread().getName();
 					for (int i = 0; i < 200; i++) {
 						log += pre+i+"\\n";
 					}
 					for (int j = 0; j < 111; j++) {
 						for (int i = 0; i < 5555; i++) {
-							System.out.println("curr id:"+j+ "-" +i);
+							System.out.println(tName + " - curr id:"+j+ "-" +i);
 							Date d = new Date();
 							String names = pre + i;
 							String logs = log + d;
 							//					log += name+"\\n";
-	//						String sql = "insert into atest(JOBID, jobname, LOG_FIELD) values ("+ i +", '"+ names +"', '"+ logs +"')";
-							String sql = "update t_job_logbak set jobname='"+ names +"', LOG_FIELD= '"+logs+"' where id_job="+i;
+//							String sql = "insert into t_job_logbak(JOBID, jobname, LOG_FIELD, logdate) values ("+ i +", '"+ names +"', '"+ logs +"', now())";
+							String sql = "update t_job_logbak set jobname='"+ names +"', LOG_FIELD= '"+logs+"', logdate=now() where JOBID="+i;
 //							String sql = "update atest set jobname='"+ names +"', LOG_FIELD= '"+logs+"' where id_job="+i;
 							PreparedStatement pstmt;
 							pstmt = (PreparedStatement) con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-							pstmt.executeUpdate();//Ö´ÐÐ
+							pstmt.executeUpdate();//Ö´ï¿½ï¿½
 							con.commit();
 							Thread.sleep(311);
 						}
@@ -126,15 +127,15 @@ public class MysqlTest {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}//´«Èë²ÎÊý£º
+				}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 		}
 		
 		new Insert().start();;
 		new Insert().start();;
-		new Insert().start();;
-		new Insert().start();;
-		new Insert().start();;
+//		new Insert().start();;
+//		new Insert().start();;
+//		new Insert().start();;
 	}
 	
 	

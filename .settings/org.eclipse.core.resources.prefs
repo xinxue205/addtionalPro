@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//resource/file.properties=ISO-8859-1
 encoding//src/DBoper/ClobOpertTest1.java=UTF-8
+encoding//src/DBoper/MysqlTest.java=UTF-8
 encoding//src/Test1.java=UTF-8
 encoding//src/annotation/AnnotionOperator.java=GBK
 encoding//src/doc/ESRequestUtil.java=UTF-8
