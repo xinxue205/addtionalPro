@@ -1,15 +1,6 @@
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class TestP{
 	int type;
@@ -36,38 +27,73 @@ class Test3 extends TestP{
 	}
 }
 public class Test {
+	static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	
 	String test = "123";
-	public static void main(String[] args) {
-		Timestamp ts= Timestamp.valueOf("2020-11-11"+" 00:00:00");
-		System.out.println(ts);
-		String unformattedString = "Updating database connection '{0}' ";
-		String[] parameters = {"name1"};
-		String string = MessageFormat.format( unformattedString, parameters );
-//		String string = MessageFormat.format("oh, {0} is 'a' pig", "ZhangSan"); 
-		  String newTimer=System.nanoTime()+""+((int)(Math.random()*900)+100);
-		System.out.println(newTimer);
+	
+	static boolean int1() {
+		System.out.println("int1");
+		return true;
+	}
+	
+	static boolean int2() {
+		System.out.println("int2");
+		return false;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		String str1 = "a.b";
+		System.out.println(str1.split("\\.")[0]);
+		String str = "2020-02-09 23:59:59";
+		Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str);
 		
-		System.out.println(new Date(1564004400000L));
-		byte a[] = {'a','1'};
-		System.out.println("s我们".getBytes().length);
+		Calendar cal=Calendar.getInstance();
+		cal.add(Calendar.DATE, 0-7);//这里改为1
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		System.out.print(d + "    " + cal.getTime());
 		
-		System.out.println("sh123456".substring(2));
-		String e = null;
-		String message = e == null ? "null exception" : e.toString();
-System.out.println("small exception occurs:" + message);
-System.out.println(new Date(1559615078558L));//1557818582171
-System.out.println(new Date(1559615138557L));//1557818582171
-		System.out.println(8255213568L/1024/1024);
-		System.out.println(new Date(1528236600000L));
-		String instanceId = "6";
-		String sql = "SELECT ct.configuration_code,c.config_value "
-				+ "FROM t_config c INNER JOIN t_config_type ct ON "
-				+ "c.config_type_id = ct.config_id WHERE c.group_id IN "
-				+ "(SELECT group_id FROM t_role_entity WHERE role_entity_id = "+instanceId+") "
-				+ "OR c.role_entity_id = "+instanceId;
-		System.out.println(sql);
+		if(d.before(cal.getTime())) {
+			System.out.println(" before");
+		} else {
+			System.out.println(" after");
+		}
+
+//		if(!int1()&&int2()) {
+//			System.out.println("true");
+//		}
+//		
+//		System.out.println("false");
+//		Timestamp ts= Timestamp.valueOf("2020-11-11"+" 00:00:00");
+//		System.out.println(ts);
+//		String unformattedString = "Updating database connection '{0}' ";
+//		String[] parameters = {"name1"};
+//		String string = MessageFormat.format( unformattedString, parameters );
+////		String string = MessageFormat.format("oh, {0} is 'a' pig", "ZhangSan"); 
+//		  String newTimer=System.nanoTime()+""+((int)(Math.random()*900)+100);
+//		System.out.println(newTimer);
+//		
+//		System.out.println(new Date(1564004400000L));
+//		byte a[] = {'a','1'};
+//		System.out.println("s我们".getBytes().length);
+//		
+//		System.out.println("sh123456".substring(2));
+//		String e = null;
+//		String message = e == null ? "null exception" : e.toString();
+//System.out.println("small exception occurs:" + message);
+//System.out.println(new Date(1559615078558L));//1557818582171
+//System.out.println(new Date(1559615138557L));//1557818582171
+//		System.out.println(8255213568L/1024/1024);
+//		System.out.println(new Date(1528236600000L));
+//		String instanceId = "6";
+//		String sql = "SELECT ct.configuration_code,c.config_value "
+//				+ "FROM t_config c INNER JOIN t_config_type ct ON "
+//				+ "c.config_type_id = ct.config_id WHERE c.group_id IN "
+//				+ "(SELECT group_id FROM t_role_entity WHERE role_entity_id = "+instanceId+") "
+//				+ "OR c.role_entity_id = "+instanceId;
+//		System.out.println(sql);
 	}
 	
 	

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>开始使用layui</title>
+  <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+ 
+<!-- 你的HTML代码 -->
+ 
+<script src="layui/layui.js"></script>
+<script>
+//一般直接写在一个js文件中
+//layui.use(['layer', 'form'], function(){
+// var layer = layui.layer
+//  ,form = layui.form; 
+//  layer.msg('Hello World');
+//});
+
+layui.use('element', function(){
+  var element = layui.element;
+});
+	var a = 2;
+var interval = setInterval(timer, 1000);
+	function timer(){
+		a += 10;
+		if(a>=100) {
+			a=100;
+			//a=0; 
+			clearInterval(interval);
+		}
+		layui.element.progress('demo', a+'%');
+	}
+</script> 
+<br><br><br><br>
+<div class="layui-progress" lay-showpercent="true">
+	<div class="layui-progress-bar layui-bg-red" lay-percent="80%" style="width: 80%;"><span class="layui-progress-text">80%</span></div>
+</div>
+<div style="margin-top:45px;" class="layui-progress layui-progress-big" lay-showpercent="true">
+	<div class="layui-progress-bar layui-bg-green" lay-percent="60%" style="width: 60%;"><span class="layui-progress-text">60%</span></div>
+</div>
+<div style="margin-top:75px;" class="layui-progress">
+	<div class="layui-progress-bar" lay-percent="40%"></div>
+</div>
+<div style="margin-top:155px;position:relative;" lay-filter="demo" class="layui-progress-big">
+	<div class="layui-progress-bar" lay-percent="10%" style="width: 10%;"></div>
+</div>
+<div style="margin-top:155px;" class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
+  <div class="layui-progress-bar layui-bg-red" lay-percent="0%" style="width: 0%;"><span class="layui-progress-text">0%</span></div>
+</div>
+</body>
+</html>

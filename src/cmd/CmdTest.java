@@ -36,7 +36,7 @@ public class CmdTest {
 	    	String s= "";
 	    	StringBuffer result = new StringBuffer();
 	    	while ((s=br.readLine())!=null) { 
-	    		result.append(s).append("\r");  
+	    		result.append(s).append("\r\n");  
 	    	}   
 	    	return result.toString();
 		} catch (IOException e) {
@@ -53,7 +53,7 @@ public class CmdTest {
 	    	String s= "";
 	    	StringBuffer result = new StringBuffer();
 	    	while ((s=br.readLine())!=null) { 
-	    		result.append(s).append("\r");  
+	    		result.append(s).append("\r\n");  
 	    	}   
 	    	return result.toString();
 		} catch (IOException e) {

@@ -12,7 +12,7 @@ import java.util.Date;
 public class FileListGetterTest {
 	public static void main(String[] args) {
 		//要检查的文件夹绝对路径
-		File folder = new File("D:\\work\\workspace-src\\kettle-53-src\\lib");//
+		File folder = new File("D:\\work\\workspace-sdimain\\sdi-main\\sdi-designer\\lib");//
 		//清单中使用的路径
 		String path ="";//"WEB-INF/mvcs/innermanage/zzsb/";
 		

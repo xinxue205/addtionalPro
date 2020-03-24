@@ -1,0 +1,16 @@
+2018/03/14 18:20:32 - cyc_test_0314_1721 - Start of job execution
+2018/03/14 18:20:32 - cyc_test_0314_1721 - Starting entry [转换1]
+2018/03/14 18:20:33 - cyc_test_0314_1721 - Dispatching started for transformation [cyc_test_0314_1721]
+2018/03/14 18:20:33 - 表输�?1.0 - Connected to database [cyc_test3_16.9oracle] (commit=1000)
+2018/03/14 18:20:36 - 表输�?1.0 - linenr 50000
+2018/03/14 18:20:36 - 表输�?1.0 - linenr 50000
+2018/03/14 18:20:37 - 表输�?1.0 - linenr 100000
+2018/03/14 18:20:37 - 表输�?1.0 - linenr 100000
+2018/03/14 18:20:37 - 表输�?1.0 - Finished reading query, closing connection.
+2018/03/14 18:20:37 - 表输�?1.0 - Finished processing (I=100000, O=0, R=0, W=100000, U=0, E=0)
+2018/03/14 18:20:37 - 表输�?1.0 - linenr 100000
+2018/03/14 18:20:37 - 表输�?1.0 - Finished processing (I=0, O=100000, R=100000, W=100000, U=0, E=0)
+2018/03/14 18:20:37 - cyc_test_0314_1721 - Finished job entry [转换1] (result=[true])
+2018/03/14 18:20:37 - cyc_test_0314_1721 - Job execution finished
+
+END

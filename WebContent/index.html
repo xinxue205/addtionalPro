@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <title>SDI许可登录</title>
+</head>
+<script src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+function skip(){
+	var str = '1234567890\n';
+	for(i = 0 ; i<8 ; i++){
+		if(i==5){
+			str = str+'error';
+		}
+		str = str + str;
+	}
+	let div = document.getElementById('systemId');
+	let pre = document.getElementById('systemId1');
+	pre.innerHTML=str;
+	let lines = str.split("\n");
+	let lineNum = lines.length;
+	let errorLine = 0 ;
+	var APP_ERROR_STR="exception|Exception|error|Error|ERROR";
+	var errorStrs = APP_ERROR_STR.split("|");
+	for(j = 0 ; j<lineNum; j++){
+		let line = lines[j];
+		var hasError = false;
+		for(k = 0 ; k<errorStrs.length; k++){
+			if(line.indexOf(errorStrs[k])>-1){
+				hasError = true;
+				break;
+			}
+		}
+		if(hasError){
+			errorLine = j;
+			break;
+		}
+	}
+	let scrollVal = Math.round(pre.offsetHeight*errorLine/lineNum);
+	console.log("scrollVal:"+scrollVal);
+	div.scrollTo(0, scrollVal);
+//alert(elem.height);
+}
+
+
+</script>
+<body style="height: 100%;" onload="skip()">
+<div id="systemId" style="height: 300px;overflow: auto;border: #8ac0fd solid 1px;width: 500px;">
+<pre id="systemId1" >
+</pre></div>
+</body>
+</html>

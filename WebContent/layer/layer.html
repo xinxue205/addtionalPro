@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8" />  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+ </head> 
+ 
+ <body>
+	
+	
+	<button value="123" name="test" id="test1" >test</button>
+ </body>
+ <script src="jquery.min.js"></script> 
+	<script src="layer/layer.js"></script>
+	 <style type="text/css">
+ .layui-layer-ico16{
+	    width: 64px;
+		height: 32px;
+		background: url(percent-loading.gif) no-repeat;
+ }</style> 
+	<script>
+	  
+	  //弹出一个提示层
+	  $('#test1').on('click', function(){
+		//layer.msg('hello');
+		showLoading1("加载中，请稍后。。。");
+	  });
+	  
+	  function showLoading(text) {
+		layer.msg(text, {
+          icon: 16, //代表加载的图标
+          time: 0,  //0秒关闭（如果不配置，默认是3秒）
+          shade: 0.5    });
+	  }
+	  
+	  function showLoading1(){
+		layer.open({
+		  content: '测试回调',
+		  yes: function(index, layero){
+			//do something
+			layer.close(index); //如果设定了yes回调，需进行手工关闭
+		  }
+		}); 
+	  }
+	</script>
+</html>

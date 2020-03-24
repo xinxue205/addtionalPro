@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8" />  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+ </head> 
+ <body> 
+  <form id="example_form" method="get" action=""> 
+   <fieldset> 
+    <legend>填写注册信息</legend> 
+    <p> <label for="user_name">登录名</label> <input id="user_name" name="name" /> </p> 
+    <p> <label for="user_age">年龄</label> <input class="math_class" id="user_age" name="age" /> </p> 
+    <p> <label for="user_birthday">生日</label> <input id="user_birthday" name="birthday" /> </p> 
+    <p> <label for="user_card_id">信用卡号</label> <input id="user_card_id" name="card" /> </p> 
+    <p> <label for="user_salary">月薪</label> <input id="user_salary" name="salary" /> </p> 
+    <p> <label for="user_prove">流水证明</label> <input id="user_prove" type="file" name="prove" /> </p> 
+    <p> <label for="user_phone">家庭电话</label> <input class="phone_group" id="user_phone" name="phone" /> </p> 
+    <p> <label for="user_mobile">个人电话</label> <input class="phone_group" id="user_mobile" name="mobile" /> </p> 
+    <p> <label for="user_image">个人头像</label> <input id="user_image" type="file" name="image" /> </p> 
+    <p> <label for="user_home">个人首页</label> <input id="user_home" type="url" name="home" /> </p> 
+    <p> <label for="user_password">输入密码</label> <input id="user_password" type="password" name="password" /> </p> 
+    <p> <label for="user_repassword">重复密码</label> <input id="user_repassword" type="password" name="repassword" /> </p> 
+    <p> <label for="send_to_me">邮件订阅</label> <input id="send_to_me" type="checkbox" name="sendMe" /> </p> 
+    <p> <label for="user_email">邮件地址</label> <input id="user_email" type="email" name="email" /> </p> 
+    <p> <label for="registration_agree">已阅读并同意注册协议</label> <input id="registration_agree" type="checkbox" name="regAgree" /> </p> 
+    <p> <input class="submit" type="submit" value="Submit" /> </p> 
+   </fieldset> 
+  </form> 
+  <div id="error_messages"> 
+   <div id="error_tips"></div> 
+   <ul></ul>
+  </div> 
+  <div id="error_container"></div> 
+  <script src="jquery.min.js"></script> 
+  <script src="jquery.validate.min.js"></script> 
+  <script src="additional-methods.min.js"></script> 
+  <script src="messages_zh.min.js"></script> 
+  <script>
+	jQuery.validator.addMethod("math",
+	function(value, element, params) {
+		var sign = params[0];
+		var result;
+		switch (sign) {
+ 
+		case "*":
+			result = params[1] * params[2];
+			break;
+		case "/":
+			result = params[1] / params[2];
+			break;
+		case "-":
+			result = params[1] - params[2];
+			break;
+		default:
+			result = params[1] + params[2];
+		}
+		return this.optional(element) || value == result;
+	},
+	jQuery.validator.format("Please enter the correct value for {0} + {1} + {2}"));
+	jQuery.validator.addClassRules("math_class", {
+		required: true,
+		math: ['*', 5, 6]
+	});
+	jQuery.validator.setDefaults({
+		// 仅做校验，不提交表单
+		debug: true,
+		// 提交表单时做校验
+		onsubmit: true,
+		// 焦点自动定位到第一个无效元素
+		focusInvalid: true,
+		// 元素获取焦点时清除错误信息
+		focusCleanup: true,
+		//忽略 class="ignore" 的项不做校验
+		ignore: ".ignore",
+		// 忽略title属性的错误提示信息
+		ignoreTitle: true,
+		// 为错误信息提醒元素的 class 属性增加 invalid 
+		errorClass: "invalid",
+		// 为通过校验的元素的 class 属性增加 valid 
+		validClass: "valid",
+		// 使用 <em> 元素进行错误提醒
+		errorElement: "em",
+		// 使用 <li> 元素包装错误提醒元素
+		wrapper: "li",
+		// 将错误提醒元素统一添加到指定元素
+		//errorLabelContainer: "#error_messages ul",
+		// 自定义错误容器
+		errorContainer: "#error_messages, #error_container",
+		// 自定义错误提示如何展示
+		showErrors: function(errorMap, errorList) {
+			$("#error_tips").html("Your form contains " + this.numberOfInvalids() + " errors, see details below.");
+			this.defaultShowErrors();
+		},
+		// 自定义错误提示位置
+		errorPlacement: function(error, element) {
+			error.insertAfter(element);
+		},
+		// 单个元素校验通过后处理
+		success: function(label, element) {
+			console.log(label);
+			console.log(element);
+			label.addClass("valid").text("Ok!")
+		},
+ 
+		highlight: function(element, errorClass, validClass) {
+			$(element).addClass(errorClass).removeClass(validClass);
+			$(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).removeClass(errorClass).addClass(validClass);
+			$(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+		},
+		//校验通过后的回调，可用来提交表单
+		submitHandler: function(form, event) {
+			console.log($(form).attr("id"));
+			//$(form).ajaxSubmit();
+			//form.submit();
+		},
+		//校验未通过后的回调
+		invalidHandler: function(event, validator) {
+			// 'this' refers to the form
+			var errors = validator.numberOfInvalids();
+			if (errors) {
+				var message = errors == 1 ? 'You missed 1 field. It has been highlighted': 'You missed ' + errors + ' fields. They have been highlighted';
+				console.log(message);
+			}
+		}
+	});
+	$("#example_form").validate({
+		rules: {
+			name: {
+				required: true,
+				minlength: 2,
+				maxlength: 24
+			},
+			age: {
+				required: true,
+				rangelength: [1, 3],
+				min: 10
+			},
+			birthday: {
+				required: true,
+				//date:true,
+				dateISO: true
+			},
+			card: {
+				required: {
+					depends: function(element) {
+						return $("#user_age").val() >= 18;
+					}
+				},
+				creditcard: true
+			},
+			salary: {
+				required: true,
+				step: {
+					param: 100,
+					depends: function(element) {
+						return $("#user_age").val() >= 28;
+					}
+				}
+			},
+			prove: {
+				required: function(element) {
+					return $("#user_age").val() >= 18;
+				},
+				extension: "xls|csv|doc"
+			},
+			phone: {
+				require_from_group: [1, ".phone_group"],
+				phoneUS: true
+			},
+			mobile: {
+				require_from_group: [1, ".phone_group"]
+			},
+			image: {
+				required: true,
+				accept: "image/*"
+				//accept:"audio/*,image/x-eps,application/pdf"
+			},
+			home: {
+				required: true,
+				url: true,
+				// 校验之前对内容进行处理
+				normalizer: function(element) {
+					var url = $.trim($(element).val());
+					// Check if it doesn't start with http:// or https:// or ftp://
+					if (url && url.substr(0, 7) !== "http://" && url.substr(0, 8) !== "https://" && url.substr(0, 6) !== "ftp://") {
+						// then prefix with http://
+						url = "http://" + url;
+					}
+					// Return the new url
+					return url;
+				},
+				// 失去焦点时进行校验
+				onfocusout: function(element, event) {
+					console.log(element);
+				},
+				onkeyup: function(element, event) {
+					console.log(element);
+				},
+				onclick: function(element, event) {
+					console.log(element);
+				}
+ 
+			},
+			password: {
+				required: true,
+				minlength: 6
+			},
+			repassword: {
+				required: true,
+				equalTo: "#user_password"
+			},
+			email: {
+				required: "#send_to_me:checked",
+				email: true,
+				remote: {
+					url: "http://localhost:8080/check/register",
+					type: "post",
+					dataType: "json",
+					data: {
+						email: $("#user_email").val()
+					}
+				}
+			},
+			regAgree: {
+				required: true
+			}
+		},
+		//自定义错误提示信息
+		messages: {
+			name: {
+				required: "请输入用户名",
+				minlength: jQuery.validator.format("用户名至少需填写{0}个字符"),
+				maxlength: jQuery.validator.format("用户名最多填写{0}个字符")
+			}
+		},
+	});
+</script>
+ </body>
+</html>
