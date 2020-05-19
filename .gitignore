@@ -1,9 +1,1 @@
-/target/
-/bin/
-js/reactdome/node_modules
-js/learn-webpack/node_modules
-logs
-.settings
-*.prefs
-WebContent/demo/plugins
-WebContent/demo/resources
+﻿jpa-test/target
