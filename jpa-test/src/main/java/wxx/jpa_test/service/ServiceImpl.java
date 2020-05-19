@@ -6,11 +6,16 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import wxx.jpa_test.dao.JobDetailDao;
+import wxx.jpa_test.dao.TenantPageDao;
 import wxx.jpa_test.dao.TenantDao;
+import wxx.jpa_test.entity.JobDetail;
 import wxx.jpa_test.entity.TenantEntity;
 
 @Service
@@ -22,6 +27,16 @@ public class ServiceImpl {
     @Resource 
 	private JobDetailDao jobDetailDao;
     
+    @Resource 
+	private TenantPageDao tenantPageDao;
+    
+    public Iterable<TenantEntity> findAllSort(Sort sort){
+		return tenantPageDao.findAll(sort);
+	}
+	
+	public Page<TenantEntity> findAll(Pageable page){
+		return tenantPageDao.findAll(page);
+	}
     
     public List query() {
     	return jobDetailDao.query();
@@ -58,6 +73,14 @@ public class ServiceImpl {
     public TenantEntity getTenantEntityByMaxId() {
     	return tenantDao.getTenantEntityByMaxId();
     }
+    
+    public List getTenantWithTenant1() {
+    	return tenantDao.getTenantWithTenant1();
+    }
+    
+    public List getTenantWithTenant2() {
+    	return tenantDao.getTenantWithTenant2();
+    }
 
     public List findByIdAndName1(String id, String name){
     	return tenantDao.findByIdAndName1(id, name);
@@ -71,4 +94,11 @@ public class ServiceImpl {
         return tenantDao.getNeed(id);
     }
     
+    public long count(){
+    	return tenantDao.count();
+    }
+    
+    public long countByName(String name){
+    	return tenantDao.countByName(name);
+    }
 }

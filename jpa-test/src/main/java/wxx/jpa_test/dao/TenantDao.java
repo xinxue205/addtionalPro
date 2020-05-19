@@ -10,20 +10,30 @@ import org.springframework.data.repository.query.Param;
 
 import wxx.jpa_test.entity.JobDetail;
 import wxx.jpa_test.entity.TenantEntity;
+import wxx.jpa_test.entity.ViewInfo;
 
 public interface TenantDao extends CrudRepository<TenantEntity, String> {
 	
 	TenantEntity findById(String id);
 	List<TenantEntity> findByIdAndName(String id, String name);
 	List<TenantEntity> findByNameLike(String name);
+	Long countByName(String name);
 	
-    @Query("from TenantEntity where name = ?1 order by id desc")
-	List<TenantEntity> listByName(String name);
+	long count();
     
  // 查询id最大的那个person
     @Query("from TenantEntity p1 where p1.id = (select max(p2.id) from TenantEntity p2)")
     TenantEntity getTenantEntityByMaxId();
     
+    @Query("select new TenantEntity(p1.id, p1.name, p1.additionInfo) from TenantEntity p1, TenantEntity1 p2 where p1.id =p2.id")
+    List<TenantEntity> getTenantWithTenant1();
+    
+    @Query("select new wxx.jpa_test.entity.ViewInfo(p, p1) from TenantEntity p, TenantEntity1 p1 where p.id =p1.id")
+    List<ViewInfo> getTenantWithTenant2();
+    
+    @Query("from TenantEntity where name = ?1 order by id desc")
+    List<TenantEntity> listByName(String name);
+
     @Query("from TenantEntity p where p.name = :name and p.id = :id")
     List findByIdAndName1(@Param("id") String id, @Param("name") String name);
     

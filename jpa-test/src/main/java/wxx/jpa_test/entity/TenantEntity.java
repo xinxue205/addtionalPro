@@ -15,7 +15,13 @@ public class TenantEntity implements Serializable {
     @Id
     @Column(name = "id")
     private String id;
-    @Column(name = "name")
+    public TenantEntity(String id, String name, String additionInfo) {
+		this.id = id;
+		this.name = name;
+		this.additionInfo = additionInfo;
+	}
+
+	@Column(name = "name")
     private String name;
     @Column(name = "additional_info")
     private String additionInfo;
