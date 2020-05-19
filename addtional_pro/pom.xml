@@ -21,7 +21,7 @@
 		<curator.version>2.11.1</curator.version>
 		<zookeeper.version>3.4.8</zookeeper.version>
 		<logback.version>1.1.7</logback.version>
-	  	<netty.version>4.1.6.Final</netty.version>
+	  	<netty.version>4.1.42.Final</netty.version>
 	  	<spring.version>4.1.7.RELEASE</spring.version>
 	</properties>
   
