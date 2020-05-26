@@ -12,10 +12,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import wxx.jpa_test.dao.HostDao;
 import wxx.jpa_test.dao.JobDetailDao;
+import wxx.jpa_test.dao.TRoleEntityRepository;
 import wxx.jpa_test.dao.TenantPageDao;
 import wxx.jpa_test.dao.TenantDao;
+import wxx.jpa_test.entity.Host;
 import wxx.jpa_test.entity.JobDetail;
+import wxx.jpa_test.entity.TRoleEntity;
 import wxx.jpa_test.entity.TenantEntity;
 
 @Service
@@ -29,6 +33,20 @@ public class ServiceImpl {
     
     @Resource 
 	private TenantPageDao tenantPageDao;
+    
+    @Resource 
+	private HostDao hostDao;
+    
+    @Resource
+    private TRoleEntityRepository troleRep;
+    
+    public Host getHostByEntity(String entityId){
+		return hostDao.getHostByEntity(entityId);
+	}
+    
+    public List<Host> getHostsPerFunc(){
+		return hostDao.getHostsPerFunc();
+	}
     
     public Iterable<TenantEntity> findAllSort(Sort sort){
 		return tenantPageDao.findAll(sort);
@@ -48,6 +66,10 @@ public class ServiceImpl {
     
     public Map testNativeQuery(String id) {
     	return jobDetailDao.testNativeQuery(id);
+    }
+    
+    public void testNativeQuery1() {
+    	jobDetailDao.testNativeQuery1();
     }
     
     public TenantEntity save(TenantEntity entity) {
@@ -100,5 +122,9 @@ public class ServiceImpl {
     
     public long countByName(String name){
     	return tenantDao.countByName(name);
+    }
+    
+    public TRoleEntity findByRolename(String rolename) {
+    	return troleRep.findByRolename(rolename);
     }
 }

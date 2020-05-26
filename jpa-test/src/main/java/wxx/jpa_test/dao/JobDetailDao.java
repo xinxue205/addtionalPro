@@ -1,5 +1,8 @@
 package wxx.jpa_test.dao;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,21 +37,30 @@ public class JobDetailDao {
 	}
 	
 	public Map testNativeQuery(String id){  
-        Query query = entityManager.createNativeQuery("select * from (select count(1) as succ_count from t_job_log where (STATUS = 'end' or STATUS = 'stop') and (ERRORS = 0 or ERRORS is null) and JOBID=:id) t, (select count(1) as fail_count from t_job_log where (STATUS = 'error' or ERRORS > 0) and JOBID=:id) tt");  
+        String sql = "select * from (select count(1) as succ_count from t_job_log where (STATUS = 'end' or STATUS = 'stop') and (ERRORS = 0 or ERRORS is null) and JOBID=:id) t, (select count(1) as fail_count from t_job_log where (STATUS = 'error' or ERRORS > 0) and JOBID=:id) tt";
+		Query query = entityManager.createNativeQuery(sql);  
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		query.setParameter("id", id);
         List rows = query.getResultList();
-//        for (Object obj : rows) {  
-//        	Map row = (Map) obj;  
-//        	System.out.println("id = " + row.get("ID"));  
-//        	System.out.println("name = " + row.get("NAME"));  
-//        	System.out.println("age = " + row.get("AGE"));  
-//        }  
-        if(rows!=null && rows.size()>0) {
+        if(rows!=null && !rows.isEmpty()) {
         	return (Map)rows.get(0);
         } else {
         	return null;
         }
+    }  
+	
+	public void testNativeQuery1(){  
+		String sql = "select * from (select count(1) as succ_count from t_job_log where (STATUS = 'end' or STATUS = 'stop') and (ERRORS = 0 or ERRORS is null) and JOBID=:id) t, "
+				+ "(select count(1) as fail_count from t_job_log where (STATUS = 'error' or ERRORS > 0) and JOBID=:id) tt";
+		Query query = entityManager.createNativeQuery(sql);
+		 query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
+			query.setParameter("id", 1);
+	        List rows = query.getResultList();
+	        if(rows!=null && !rows.isEmpty()) {
+	        	System.out.println(rows.get(0));
+	        } else {
+	        	return ;
+	        }
     }  
 
 	public List<Map> findMapBySql(String sqlStr) {

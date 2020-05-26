@@ -4,6 +4,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * ReentrantLock 比 synchronized 增加了一些高级功能<br>
+相比 synchronized，ReentrantLock 增加了一些高级功能。主要有三点：① 等待可中断；② 可实现公平锁；③ 可现实选择性通知(锁可以绑定多个条件)
+ * @author Administrator
+ *
+ */
 public class ReentrantLockTest {
 
     static Lock lock = new ReentrantLock(true);
