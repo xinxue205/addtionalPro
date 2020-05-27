@@ -1,4 +1,4 @@
-package threadlocal;
+package thread;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
 *而DAO 中的 Connection 如果是从 ThreadLocal 中获得 Connection 的话，那么这些 DAO 就会被纳入到同一个 Connection 之下。
  * @author Administrator
  */
-public class ThreadLocalTest {
+public class TestThreadLocal {
 
     static ThreadLocal<HashMap> map0 = new ThreadLocal<HashMap>(){
         @Override 
@@ -55,7 +55,7 @@ public class ThreadLocalTest {
      * @param args 
      */ 
     public static void main(String[] args){ 
-        ThreadLocalTest test = new ThreadLocalTest(); 
+        TestThreadLocal test = new TestThreadLocal(); 
         test.run(); 
     }
 

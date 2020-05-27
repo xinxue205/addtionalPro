@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * CountDownLatch : 一个线程(或者多个)， 等待另外N个线程完成某个事情之后才能执行。
+ * CountDownLatch : 一个线程(或者多个)， 等待另外N个线程完成某个事情之后才能执行。<br>
  * 类似跑步比赛中，等所有运动员跑完了，裁判才喊结束。
  * @author Administrator
  *

@@ -6,8 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * CyclicBarrier: N个线程相互等待，任何一个线程完成之前，所有的线程都必须等待。
- *           类似跑步比赛准备，当运动员都准备好后，才喊预备开始，只要有一个人没有准备好，大家都等待.
+ * CyclicBarrier: N个线程相互等待，任何一个线程完成之前，所有的线程都必须等待。<br>
+ *           类似跑步比赛准备，当运动员都准备好后，才喊预备开始，只要有一个人没有准备好，大家都等待.<br>
  * @author Administrator
  *
  */
