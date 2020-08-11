@@ -6,7 +6,7 @@ var data = {
 	'commit': '1000',
 	'truncate': false,
 	'ignore_errors': false,
-	'specify_fields': true,
+	'specify_fields': false,
 
 	'partitioning_enabled': false,
 	'partitioning_field': '',
@@ -20,16 +20,16 @@ var data = {
 
 	'fields': [
 		{
-		'column_name': 'aaa',
-		'stream_name': 'a2',
+		'column_name': 'a1',
+		'stream_name': 'aa1',
 		},
 		{
-		'column_name': 'b',
-		'stream_name': 'b2',
+		'column_name': 'b1',
+		'stream_name': 'bb1',
 		},
 		{
-		'column_name': 'c',
-		'stream_name': 'c2',
+		'column_name': 'c1',
+		'stream_name': 'cc1',
 		},
 	],
 };
@@ -39,6 +39,7 @@ var port = 8088;
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+let Mock = require('mockjs'); 
 
 //app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -48,7 +49,7 @@ app.use(bodyParser.json())
 //var jsonParser = bodyParser.json();
 app.post('/api/save', function (req,res) {
 	//req.body  先设置一下body-parser的解析的编码方式
-	console.log(req.body);
+	console.log('/api/save', req.body);
 	//{ sex: 'male', user: 'Mr.koo', height: '180' }
 	//req.body.sex  req.body.user req.body.height
 	data = req.body;
@@ -59,7 +60,7 @@ app.post('/api/save', function (req,res) {
 
 app.post('/api/read', function (req,res) {
 	//req.body  先设置一下body-parser的解析的编码方式
-	console.log(req.body);
+	console.log('/api/read', req.body);
 	//{ sex: 'male', user: 'Mr.koo', height: '180' }
 	//req.body.sex  req.body.user req.body.height
 	var result = {code:'SUCC', metadata:data}
@@ -67,12 +68,27 @@ app.post('/api/read', function (req,res) {
 	res.send(result);
 })
 
+app.post('/api/getConnections', function (req,res) {
+	console.log('/api/getConnections', req.body);
+	var data = Mock.mock({
+        "code": "SUCC",
+        "data|1-9": [{
+			'name': '数据库连接-@ctitle', //随机生成一个中文标题
+			// 'name': '@cparagraph(2)', //生成一段2句话的中文文本,
+            "id|+1": 1,
+        }]
+    })
+	// var data = [{id:1, name:'数据库连接1'},{id:2, name:'数据库连接2'},{id:3, name:'数据库连接3'}]
+	// var result = {code:'SUCC', data: data}
+	res.send(data);
+})
+
 app.post('/api/getFields', function (req,res) {
 	//req.body  先设置一下body-parser的解析的编码方式
-	console.log(req.body);
+	console.log('/api/getFields', req.body);
 	//{ sex: 'male', user: 'Mr.koo', height: '180' }
 	//req.body.sex  req.body.user req.body.height
-	var data = {column_fields: ['aa','bb','cc'], stream_fields: ['aa1','bb1','cc1']}
+	var data = {column_fields: ['a2','b2','c2'], stream_fields: ['aa2','bb2','cc2']}
 	var result = {code:'SUCC', data: data}
 	//Object.assign(data)
 	res.send(result);
