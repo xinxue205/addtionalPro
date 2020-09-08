@@ -13,79 +13,79 @@
 <body>
     <div class="vertical-center">
         <div class="container">
-            <h1>检测车辆速度</h1>
+            <h1>检测作业执行速度</h1>
+            请输入transid: <input type="text" id="transid"/>
             <button class="btn btn-primary">开始</button>
             <button class="btn btn-danger">停止</button>
             <table class="table" id="stockTable">
                 <thead>
                     <tr>
-                        <th>车牌号</th>
+                        <th>transid</th>
                         <th>速度</th>
                     </tr>
                 </thead>
                 <tbody id="stockRows">
                     <tr>
                         <td>
-                            <h3>A11111</h3>
+                            <h3 id="transidShow">---</h3>
                         </td>
-                        <td id="A11111">
-                            <h3><span class="label label-default label-success">00.00</span></h3>
+                        <td >
+                            <h3><span class="label label-default label-success" id="inputSpeed">00.00</span></h3>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>A22222</h3>
-                        </td>
-                        <td id="A22222">
-                            <h3><span class="label label-default label-success">00.00</span></h3>
+                        <td >
+                            <h3><span class="label label-default label-success" id="outSpeed">00.00</span></h3>
                         </td>
                     </tr>
+                    
                 </tbody>
             </table>
         </div>
     </div>
     <script>
-        var ws = new WebSocket("ws://localhost:8182");
-        var stock_request = {
-            "speed": ["A11111", "A22222"]
-        };
+        var ws = new WebSocket("ws://localhost:8181");
         var isClose = false;
         var speed = {
             "A11111": 0,
-            "A22222": 0,
+            "A2": 0
         };
+        ws.onopen = function (e) {
+            console.log('连接服务器成功');
+            isClose = false;
+        }
+        // UI update function
+        var changeSpeedEntry = function (item, newValue) {
+            var valElem = $('#' + item + ' span');
+            valElem.html(newValue.toFixed(2));
+        }
+        // 客户端WebSocket 监听消息并处理程序
+        ws.onmessage = function (e) {
+            var speedData = JSON.parse(e.data);
+            console.log("收到数据：" + JSON.stringify(speedData));
+            $('#inputSpeed').html(speedData[0].toFixed(2));
+            $('#outSpeed').html(speedData[0].toFixed(2));
+            // for (var item in speedData) {
+            //     if (speedData.hasOwnProperty(item)) {
+            //         changeSpeedEntry(item, speedData[item]);
+            //         speed[item] = speedData[item];
+            //     }
+            // }
+        };
+        
         //更新视图
         function updataSource() {
-            ws.onopen = function (e) {
-                console.log('连接服务器成功');
-                isClose = false;
-                ws.send(JSON.stringify(stock_request));
-                console.log("发送消息成功");
-            }
-            // UI update function
-            var changeSpeedEntry = function (item, newValue) {
-                var valElem = $('#' + item + ' span');
-                valElem.html(newValue.toFixed(2));
-            }
-            // 客户端WebSocket 监听消息并处理程序
-            ws.onmessage = function (e) {
-                var speedData = JSON.parse(e.data);
-                console.log("收到数据：" + speedData);
-                for (var item in speedData) {
-                    if (speedData.hasOwnProperty(item)) {
-                        changeSpeedEntry(item, speedData[item]);
-                        speed[item] = speedData[item];
-                    }
-                }
-            };
+            var transid = $('#transid').val();
+            $('#transidShow').html(transid);
+            var stock_request = {"transid": transid};
+            ws.send(JSON.stringify(stock_request));
+            console.log("发送消息成功");
         }
 
         //业务代码
-        updataSource();
+        //updataSource();
 
         $(".btn-primary").click(function () {
-            if (isClose) {
-                ws = new WebSocket("ws://localhost:8182");
+            if(!$('#transid').val()){
+                alert("请输入transid")
             }
             updataSource();
         });
