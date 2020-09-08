@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="vertical-center">
+        <div class="container">
+            <!-- 客户端加一个简单的input输入框和一个发送按钮 -->
+            <form role="form" id="chat_form" onsubmit="sendMessage(); return false;" style="margin-top:100px;">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="message" id="message" value="" />
+                </div>
+                <button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">
+                    发送
+                </button>
+            </form>
+        </div>
+    </div>
+    <div id="myDiv"><h2>测试</h2></div>
+    <button id="b01" type="button">测试</button>
+</body>
+<script>
+
+var beginTime = " 09:25";
+var endTime = " 15:05";
+
+var alarmValues = {
+    "sz300449": 0, "sz300561": 0, "sz300541": 24.51, "sz300332": 6.65
+};
+
+var monitorCodes = "sh000001,sz399006";
+for (let a in alarmValues){
+    monitorCodes += (","+a);
+}
+
+getInfo();
+
+var intt;
+var now = new Date();
+var todayStr = formatDateTime(now).substr(0,10);
+if(!isAfterDate(now, todayStr+ endTime)){
+    intt = setInterval(
+        function () {
+            getInfo();
+        }, 8 * 1000);
+}
+    
+function getInfo(){
+    var now = new Date();
+    var todayStr = formatDateTime(now).substr(0,10);
+    if(isBeforeDate(now, todayStr+ beginTime)){
+        return
+    }
+    
+    console.log("------------------"+ now +"------------------");
+
+    var htmlobj = $.ajax({url:"http://hq.sinajs.cn/list="+monitorCodes, async:false});
+//            htmlobj=$.ajax({url:"/jquery/test1.txt", async:false});
+    var infor = htmlobj.responseText;
+    var inforArr = infor.split("\n");
+    
+    for(j = 0; j < inforArr.length; j++) {
+        var item = inforArr[j];
+        if(!item){
+            continue;
+        }
+        var stockInfo = item.substr(21);
+        var stockCode = item.substr(11,8);
+        stockInfo.replace("\"", "");
+        
+        var stockInfos = stockInfo.split(",");
+        var stockname = stockInfos[0];
+        var open = stockInfos[1]
+        var last = stockInfos[2];
+        var currP = stockInfos[3];
+        var upRate = currP/last - 1 ;
+        var buy = alarmValues[stockCode];
+        var buyInfo = "";
+        if(buy){
+            var win = currP-buy;
+            var winRate = win/buy;
+            buyInfo = buy ? "("+ win.toFixed(2) +" "+ formatPercent(winRate) +")" : "";
+        }
+        
+        console.log(stockname + " " + stockCode + " " + stockInfos[3] + " " + formatPercent(upRate)  + buyInfo + " 开" + open + " 昨收" + last 
+        + " 最高" + stockInfos[4] + " 最低" + stockInfos[5] + " 卖一" + stockInfos[21] + " " + stockInfos[20]+ " 买一" + stockInfos[11] + " " + stockInfos[10]);
+    }
+
+    if(isAfterDate(now, todayStr+ endTime)){
+        console.log("------------------"+ now +" 系统过时，即将退出------------------");
+        window.clearInterval(intt);
+        return
+    }
+}
+$(document).ready(function(){
+    $("#b01").click(function(){
+        
+        //$("#myDiv").html(htmlobj.responseText);
+    });
+});
+
+function isAfterDate (compareDate, dateStr) {
+    endDate = new Date(dateStr);
+    if (compareDate >= endDate) {
+        return true;
+    }
+    return false;
+}
+
+function isBeforeDate (compareDate, dateStr) {
+    endDate = new Date(dateStr);
+    if (compareDate <= endDate) {
+        return true;
+    }
+    return false;
+}
+
+function formatPercent(data){
+    var dataPercent = data*100;
+    return dataPercent.toFixed(2) + "%";
+}
+
+
+function formatDateTime (date) {
+    var y = date.getFullYear();
+    var m = date.getMonth()+1;
+    var d = date.getDate();
+    var h = date.getHours();
+    var minute = date.getMinutes();
+    m = m < 10 ? ('0' + m) : m;
+    d = d < 10 ? ('0' + d) : d;
+    h = h < 10 ? ('0' + h) : h;
+    minute = minute < 10 ? ('0' + minute) : minute;
+    return y + '/' + m + '/' + d+' '+h+':'+minute;
+};
+</script>
+
+</html>
