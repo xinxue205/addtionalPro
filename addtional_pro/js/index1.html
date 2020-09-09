@@ -34,7 +34,7 @@ var beginTime = " 09:25";
 var endTime = " 15:05";
 
 var alarmValues = {
-    "sz300449": 0, "sz300561": 0, "sz300541": 0, "sz300332": 6.65, "sz300399": 24.88
+    "sz300449": 0, "sz300561": 0, "sz300541": 0, "sz300332": 0, "sz300399": 24.88, "sz300780": 22.2
 };
 
 var lastValues = Object.create(alarmValues);;
@@ -79,7 +79,7 @@ function getInfo(){
         stockInfo.replace("\"", "");
         
         var stockInfos = stockInfo.split(",");
-        var stockname = stockInfos[0];
+        var stockname = stockInfos[0].substr(0,2);
         var open = stockInfos[1]
         var last = stockInfos[2];
         var currP = stockInfos[3];

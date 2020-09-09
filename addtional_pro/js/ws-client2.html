@@ -60,7 +60,7 @@
         // 客户端WebSocket 监听消息并处理程序
         ws.onmessage = function (e) {
             var speedData = JSON.parse(e.data);
-            console.log("收到数据：" + JSON.stringify(speedData));
+            console.log(new Date()+"收到数据：" + JSON.stringify(speedData));
             $('#inputSpeed').html(speedData[0].toFixed(2));
             $('#outSpeed').html(speedData[0].toFixed(2));
             // for (var item in speedData) {
