@@ -16,17 +16,17 @@
         <div class="container">
             <!-- 客户端加一个简单的input输入框和一个发送按钮 -->
             <form role="form" id="chat_form" onsubmit="sendMessage(); return false;" style="margin-top:100px;">
+                <div id="myDiv" class="form-group"><h2>测试</h2></div>
                 <div class="form-group">
                     <input class="form-control" type="text" name="message" id="message" value="" />
                 </div>
                 <button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">
                     发送
                 </button>
+                <button id="b01" class="btn btn-primary" type="button">测试</button>
             </form>
         </div>
     </div>
-    <div id="myDiv"><h2>测试</h2></div>
-    <button id="b01" type="button">测试</button>
 </body>
 <script>
 
@@ -34,9 +34,10 @@ var beginTime = " 09:25";
 var endTime = " 15:05";
 
 var alarmValues = {
-    "sz300449": 0, "sz300561": 0, "sz300541": 24.51, "sz300332": 6.65
+    "sz300449": 0, "sz300561": 0, "sz300541": 0, "sz300332": 6.65, "sz300399": 24.88
 };
 
+var lastValues = Object.create(alarmValues);;
 var monitorCodes = "sh000001,sz399006";
 for (let a in alarmValues){
     monitorCodes += (","+a);
@@ -56,14 +57,14 @@ if(!isAfterDate(now, todayStr+ endTime)){
     
 function getInfo(){
     var now = new Date();
+    console.log("------------------"+ now +"------------------");
+
     var todayStr = formatDateTime(now).substr(0,10);
     if(isBeforeDate(now, todayStr+ beginTime)){
         return
     }
-    
-    console.log("------------------"+ now +"------------------");
 
-    var htmlobj = $.ajax({url:"http://hq.sinajs.cn/list="+monitorCodes, async:false});
+    var htmlobj = $.ajax({url:"http://hq.sinajs.cn/list="+monitorCodes, async:false, timeout: 8000});
 //            htmlobj=$.ajax({url:"/jquery/test1.txt", async:false});
     var infor = htmlobj.responseText;
     var inforArr = infor.split("\n");
@@ -91,8 +92,11 @@ function getInfo(){
             buyInfo = buy ? "("+ win.toFixed(2) +" "+ formatPercent(winRate) +")" : "";
         }
         
-        console.log(stockname + " " + stockCode + " " + stockInfos[3] + " " + formatPercent(upRate)  + buyInfo + " 开" + open + " 昨收" + last 
+        var lastP = lastValues[stockCode]
+        var change = currP-lastP;
+        console.log(stockname + " " + stockCode + " " + currP+ "("+ change.toFixed(2) +")" + " " + formatPercent(upRate)  + buyInfo + " 开" + open + " 昨收" + last 
         + " 最高" + stockInfos[4] + " 最低" + stockInfos[5] + " 卖一" + stockInfos[21] + " " + stockInfos[20]+ " 买一" + stockInfos[11] + " " + stockInfos[10]);
+        lastValues[stockCode] = currP;
     }
 
     if(isAfterDate(now, todayStr+ endTime)){
