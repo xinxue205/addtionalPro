@@ -6,7 +6,7 @@ var WebSocketServer = require('ws').Server;
 var wss = new WebSocketServer({
     port: 8181
 }); //服务端口8181
-var speed = {
+var speed = {//transid-[inputspeed, outspeed]
     "A11111": [1, 2],
     "A22222": [1, 2],
 }
@@ -43,7 +43,7 @@ setInterval(
 
 //var clientSpeeds = [];
 var clientID = 1;
-var clientMap = {};
+var clientMap = {};//clientID-transid
 wss.on('connection', function (ws) {
     //var uuid = uuidV4();
     var currID = clientID ++;
@@ -60,7 +60,7 @@ wss.on('connection', function (ws) {
             // }
             if (speedObj) {
                 ws.send(JSON.stringify(speedObj)); //需要将对象转成字符串。WebSocket只支持文本和二进制数据,推送消息
-                console.log("服务器推送数据：", JSON.stringify(speedObj));
+                console.log("服务器给客户端["+ currID +"]推送数据：", JSON.stringify(speedObj));
             }
 
         }
@@ -81,6 +81,9 @@ wss.on('connection', function (ws) {
         //sendSpeedUpdates(ws);
     });
     ws.on('close', function () {
+        console.log("客户端["+ currID +"]断开连接");
+        delete speed[clientMap[currID]];
+        delete clientMap[currID];
         if (clientSpeedUpdater) {
             //断开连接清楚定时器
             clearInterval(clientSpeedUpdater);
