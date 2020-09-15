@@ -32,11 +32,15 @@ import com.jcraft.jsch.ChannelSftp;
  */
 public class SSHTest {
 
-	private static String uip="192.168.11.117";
+	private static String uip="192.168.11.12";
 	private static int port=22;
-	private static String user="sdi";//"sdi";
-	private String pwd="sdi@123";
+	private static String user="root";//"sdi";
+	private String pwd="85574999";
 
+	public static void main(String[] args) throws Exception {
+		exec("java -version");
+	}
+	
 	public static void main1(String[] args) throws Exception {
 //		exec("cat -n /home/sdi/test108/worker117/logs/25841796338700264/135222-25841796338700264-worker117.log | tail -n 1000");
 		String allPath = "/home/sdi/test108/worker117/logs/25841796338700264/135222-25841796338700264-worker117.log";
@@ -72,7 +76,6 @@ public class SSHTest {
      * @throws Exception
      */
     public static boolean exec(String cmds) throws Exception {
-    	System.out.println(new Date());
     	JSch jsch = new JSch();
 		Session session = null;
 		ChannelExec channel = null;
@@ -80,25 +83,20 @@ public class SSHTest {
 			session = jsch.getSession(user, uip, port);
 			UserInfo info = new SSHTest().new MyUserInfo();
 			session.setUserInfo(info);
-	    	System.out.println(new Date());
 			session.connect();
 
-	    	System.out.println(new Date());
 			channel = (ChannelExec) session.openChannel("exec");
          
 			//InputStream in = channel.getInputStream(); 
 			BufferedReader in = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
 			channel.setCommand(cmds);  
 			channel.setErrStream(System.err);  
-	    	System.out.println(new Date());
 			channel.connect();  
 			//result = IOUtils.toString(in,"UTF-8");
-	    	System.out.println(new Date());
 			String content;
             while ((content = in.readLine()) != null) {
 				System.out.println(content);
 			}
-        	System.out.println(new Date());
 		} catch (JSchException | IOException e) {
 			return false;
 		} finally {
