@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="AddService_types.js"></script>
+    <script type="text/javascript" src="thrift.js"></script>
+    <script type="text/javascript" src="AddService.js"></script>
+
+
+</head>
+<body>
+	<button id="test" >test</button>
+	
+	    <script>
+        $('#test').click(function ()
+        {
+		console.log('aaa');
+            var debugPosation = 0;
+            try
+            {
+                var transport = new Thrift.Transport("http://localhost:8090/HelloServer1");
+				//var transport = new Thrift.Transport("/service");
+                var protocol = new Thrift.Protocol(transport);
+                var client = new AddServiceClient(protocol);
+
+                var result_Sum = client.sayHello("1");
+				console.log(result_Sum);
+            }
+            catch (e)
+            {
+                alert("出错鸟：" + e.message);
+            }
+        });
+    </script>
+</body>
+</html>
