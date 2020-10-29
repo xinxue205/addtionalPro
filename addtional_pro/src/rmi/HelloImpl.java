@@ -32,7 +32,7 @@ public class HelloImpl extends UnicastRemoteObject implements IHello {
      * @throws java.rmi.RemoteException 
      */ 
     public String helloWorld() throws RemoteException { 
-    	System.out.println("tingdao!");
+    	System.out.println("收到helloWorld!");
         return "Hello World!"; 
     } 
 
@@ -44,6 +44,7 @@ public class HelloImpl extends UnicastRemoteObject implements IHello {
      * @throws java.rmi.RemoteException 
      */ 
     public String sayHelloToSomeBody(String someBodyName) throws RemoteException { 
+    	System.out.println("收到给"+ someBodyName +"的hello!");
         return "你好，" + someBodyName + "!"; 
     } 
 }
