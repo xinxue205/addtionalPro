@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>服务器推送消息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="vertical-center">
+        <div class="container">
+            <h1>检测作业执行速度</h1>
+            请输入transid: <input type="text" id="transid"/>
+            <button class="btn btn-primary">开始</button>
+            <button class="btn btn-danger">停止</button>
+            <table class="table" id="stockTable">
+                <thead>
+                    <tr>
+                        <th>transid</th>
+                        <th>速度</th>
+                    </tr>
+                </thead>
+                <tbody id="stockRows">
+                    <tr>
+                        <td>
+                            <h3 id="transidShow">---</h3>
+                        </td>
+                        <td >
+                            <h3><span class="label label-default label-success" id="inputSpeed">-.-</span></h3>
+                        </td>
+                        <td >
+                            <h3><span class="label label-default label-warning" id="outSpeed">-.-</span></h3>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        var ws = new WebSocket("ws://localhost:8181");
+        var isClose = false;
+        var speed = {
+            "A11111": 0,
+            "A2": 0
+        };
+        ws.onopen = function (e) {
+            console.log('连接服务器成功');
+            isClose = false;
+        }
+        // UI update function
+        var changeSpeedEntry = function (item, newValue) {
+            var valElem = $('#' + item + ' span');
+            valElem.html(newValue.toFixed(2));
+        }
+        // 客户端WebSocket 监听消息并处理程序
+        ws.onmessage = function (e) {
+            var speedData = JSON.parse(e.data);
+            console.log(new Date()+"收到数据：" + JSON.stringify(speedData));
+            if(speedData.isExec){
+                $('#inputSpeed').html(speedData.inputSpeed.toFixed(2));
+                $('#outSpeed').html(speedData.outSpeed.toFixed(2));
+            } else {
+                $('#inputSpeed').html("-.-");
+                $('#outSpeed').html("-.-");
+            }
+            // for (var item in speedData) {
+            //     if (speedData.hasOwnProperty(item)) {
+            //         changeSpeedEntry(item, speedData[item]);
+            //         speed[item] = speedData[item];
+            //     }
+            // }
+        };
+        
+        //更新视图
+        function updataSource() {
+            var transid = $('#transid').val();
+            $('#transidShow').html(transid);
+            var stock_request = {"transid": transid};
+            ws.send(JSON.stringify(stock_request));
+            console.log("发送消息成功");
+        }
+
+        //业务代码
+        //updataSource();
+
+        $(".btn-primary").click(function () {
+            if(!$('#transid').val()){
+                alert("请输入transid")
+            }
+            updataSource();
+        });
+        $(".btn-danger").click(function () {
+            ws.close();
+        });
+
+        ws.onclose = function (e) {
+            console.log("断开连接", e);
+            isClose = true;
+        };
+    </script>
+</body>
+
+</html>
