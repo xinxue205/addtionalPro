@@ -191,7 +191,7 @@
 		<groupId>org.elasticsearch.client</groupId>
 		<artifactId>transport</artifactId>
 		<version>6.5.4</version>
-		<exclusions>
+		<!--<exclusions>
 			<exclusion>
 				<groupId>org.elasticsearch</groupId>
 				<artifactId>elasticsearch</artifactId>
@@ -201,7 +201,7 @@
 				<groupId>org.elasticsearch.plugin</groupId>
 				<artifactId>transport-netty4-client</artifactId>
 			</exclusion>
-		</exclusions>
+		</exclusions>-->
 	</dependency>
 	<dependency>
 		<groupId>org.elasticsearch.plugin</groupId>
