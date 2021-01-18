@@ -214,12 +214,7 @@
 	    <version>3.5.6</version>
 	</dependency>
 	  	
-  <!-- https://mvnrepository.com/artifact/microsoft/sqljdbc -->
-	<dependency>
-	    <groupId>microsoft</groupId>
-	    <artifactId>sqljdbc</artifactId>
-	    <version>1.2-fixed</version>
-	</dependency>
+	
 	<dependency>
 	    <groupId>io.jaegertracing</groupId>
 	    <artifactId>jaeger-core</artifactId>
@@ -304,11 +299,7 @@
 		<artifactId>sigar</artifactId>
 		<version>1.6.4</version>
 	</dependency>
-	<dependency>
-		<groupId>net.sf.json-lib</groupId>
-		<artifactId>json-lib</artifactId>
-		<version>2.2.3</version>
-	</dependency>
+	
 	<dependency>
 		<groupId>org.aspectj</groupId>
 		<artifactId>aspectjrt</artifactId>
@@ -431,22 +422,7 @@
 	    <version>${spring.version}</version>
 	</dependency>
 	
-	<dependency>
-	    <groupId>cn.sinobest.wxx</groupId>
-	    <artifactId>datechcsp</artifactId>
-	    <version>1.0.0</version>
-	</dependency>
 	
-	<dependency>
-	    <groupId>cn.sinobest.wxx</groupId>
-	    <artifactId>ifxjdbc</artifactId>
-	    <version>1.0.0</version>
-	</dependency>
-		<dependency>
-	    <groupId>cn.sinobest.wxx</groupId>
-	    <artifactId>MSecurity</artifactId>
-	    <version>1.0.0</version>
-	</dependency>
 	<!-- https://mvnrepository.com/artifact/commons-io/commons-io 
 	<dependency>
 	    <groupId>commons-io</groupId>
@@ -512,12 +488,7 @@
     <artifactId>jfreechart</artifactId>
     <version>1.0.14</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/jpcap/jpcap -->
-<dependency>
-    <groupId>cn.sinobest.wxx</groupId>
-    <artifactId>jpcap</artifactId>
-    <version>1.0.0</version>
-</dependency>
+
 <!-- https://mvnrepository.com/artifact/org.json/json -->
 <dependency>
     <groupId>org.json</groupId>
@@ -542,11 +513,7 @@
     <artifactId>javassist</artifactId>
     <version>3.20.0-GA</version>
 </dependency>
-<dependency>
-    <groupId>cn.sinobest.wxx</groupId>
-    <artifactId>jclasslib</artifactId>
-    <version>1.0.0</version>
-</dependency>
+
 <!-- https://mvnrepository.com/artifact/cglib/cglib-nodep -->
 <dependency>
     <groupId>cglib</groupId>
@@ -571,7 +538,42 @@
     <artifactId>jtds</artifactId>
     <version>1.2.2</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/net.sourceforge.jtds/jtds -->
+<dependency>
+	    <groupId>microsoft</groupId>
+	    <artifactId>sqljdbc</artifactId>
+	    <version>1.2-fixed</version>
+	</dependency>
+	<dependency>
+		<groupId>net.sf.json-lib</groupId>
+		<artifactId>json-lib</artifactId>
+		<version>2.2.3</version>
+	</dependency>
+	<dependency>
+	    <groupId>cn.sinobest.wxx</groupId>
+	    <artifactId>datechcsp</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>cn.sinobest.wxx</groupId>
+	    <artifactId>ifxjdbc</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+		<dependency>
+	    <groupId>cn.sinobest.wxx</groupId>
+	    <artifactId>MSecurity</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+	<dependency>
+    <groupId>cn.sinobest.wxx</groupId>
+    <artifactId>jpcap</artifactId>
+    <version>1.0.0</version>
+</dependency>
+<dependency>
+    <groupId>cn.sinobest.wxx</groupId>
+    <artifactId>jclasslib</artifactId>
+    <version>1.0.0</version>
+</dependency>
 <dependency>
     <groupId>cn.sinobest.wxx</groupId>
     <artifactId>ifxjdbcx</artifactId>
@@ -608,6 +610,22 @@
   <artifactId>commons-vfs</artifactId>
   <version>20100924-pentaho</version>
 </dependency>
+<dependency>
+  <groupId>cn.sinobest</groupId>
+  <artifactId>jmxri</artifactId>
+  <version>1.2.1</version>
+</dependency>
+<dependency>
+  <groupId>cn.sinobest</groupId>
+  <artifactId>jmxtools</artifactId>
+  <version>1.2.1</version>
+</dependency>   
+<dependency>
+  <groupId>com.dm</groupId>
+  <artifactId>Dm7JdbcDriver</artifactId>
+  <version>1.7</version>
+</dependency>
+
 <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
@@ -660,22 +678,7 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency> -->
-        <!-- https://mvnrepository.com/artifact/jmxri/jmxri -->
-		<dependency>
-		  <groupId>cn.sinobest</groupId>
-		  <artifactId>jmxri</artifactId>
-		  <version>1.2.1</version>
-		</dependency>
-		<dependency>
-		  <groupId>cn.sinobest</groupId>
-		  <artifactId>jmxtools</artifactId>
-		  <version>1.2.1</version>
-		</dependency>   
-		<dependency>
-		  <groupId>com.dm</groupId>
-		  <artifactId>Dm7JdbcDriver</artifactId>
-		  <version>1.7</version>
-		</dependency>
+
   </dependencies>  
   <repositories>
   	<repository>
