@@ -18,7 +18,7 @@ public class Test {
 
 		// ÉèÖÃÅäÖÃÊôÐÔ
 		Properties props = new Properties();
-		props.put("metadata.broker.list","localhost:9092");
+		props.put("metadata.broker.list","192.168.16.9:9092");
 		props.put("serializer.class", "kafka.serializer.StringEncoder");
 		// key.serializer.classÄ¬ÈÏÎªserializer.class
 		props.put("key.serializer.class", "kafka.serializer.StringEncoder");
