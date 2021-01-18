@@ -25,10 +25,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class OrderCollector {
 	
-	static String sourceFile = "C:\\Users\\admin\\Documents\\WeChat Files\\wxid_9es2oe81viq251\\FileStorage\\File\\2021-01\\单号20210117(1).xls";
-	static String targetDir = "C:\\Users\\admin\\Documents\\WeChat Files\\wxid_9es2oe81viq251\\FileStorage\\File\\2021-01\\";
+	static String sourceFile = "C:\\Users\\FU\\Desktop\\test.xls";
+	static String targetDir = "C:\\Users\\FU\\Desktop\\快递\\";
 	static int sourceBeginLine = 2;
-	static String[] targetHeader = {"收件人姓名", "收件人电话", "快递单号", "单品名称", "快递公司"};
+	static String[] targetHeader = {"订单号", "收件人姓名", "收件人电话", "快递单号", "单品名称", "快递公司"};
 	static Map<String, Integer> map = new HashMap<String, Integer>();
 	static List<String[]>[] allData = new ArrayList[9];
 	
@@ -40,6 +40,7 @@ public class OrderCollector {
 	}
 
 	private static void exportData() throws Exception {
+		
 		for (Entry<String, Integer> e : map.entrySet()) {
 			List<String[]> data = allData[e.getValue()];
 			if(data.size()==0) {
@@ -48,26 +49,22 @@ public class OrderCollector {
 			}
 			XSSFWorkbook workbook = new XSSFWorkbook(); 
 			XSSFSheet sheet = workbook.createSheet();
-            XSSFRow row = sheet.createRow(0); 
-            XSSFCell cell = row.createCell(0);
-        	cell.setCellValue("收件人姓名");
-        	cell = row.createCell(1);
-            cell.setCellValue("收件人电话");
-            cell = row.createCell(2);
-            cell.setCellValue("快递单号");
-            cell = row.createCell(3);
-            cell.setCellValue("商品名称");
-            int startRowNo = 1;
+//            XSSFRow row = sheet.createRow(0); 
+//            XSSFCell cell = row.createCell(0);
+//        	cell.setCellValue("收件人姓名");
+//        	cell = row.createCell(1);
+//            cell.setCellValue("收件人电话");
+//            cell = row.createCell(2);
+//            cell.setCellValue("快递单号");
+//            cell = row.createCell(3);
+//            cell.setCellValue("商品名称");
+//            int startRowNo = 1;
 			for (int i = 0; i < data.size(); i++) {
 				String[] currData = data.get(i);
-				row = sheet.createRow(startRowNo+i); 
-				cell = row.createCell(0);
+				XSSFRow row = sheet.createRow(i); 
+				XSSFCell cell = row.createCell(0);
 	        	cell.setCellValue(currData[0]);
 	        	cell = row.createCell(1);
-	        	cell.setCellValue(currData[1]);
-	        	cell = row.createCell(2);
-	        	cell.setCellValue(currData[2]);
-	        	cell = row.createCell(3);
 	        	cell.setCellValue(currData[3]);
 			}
 			
@@ -101,6 +98,10 @@ public class OrderCollector {
 		map.put("邮政", 6);
 		map.put("百世", 7);
 		map.put("其它", 8);
+		
+		for (Entry<String, Integer> e : map.entrySet()) {
+			new File(targetDir+File.separator+e.getKey()+".xls").delete();
+		}
 		allData[0] = new ArrayList<String[]>();
 		allData[1] = new ArrayList<String[]>();
 		allData[2] = new ArrayList<String[]>();
@@ -115,7 +116,7 @@ public class OrderCollector {
 	private static void readData(String sourceFile) throws Exception {
 		FileInputStream fis = new FileInputStream(sourceFile);  
 		Workbook wb = WorkbookFactory.create(fis); 
-		Sheet sheet = wb.getSheetAt(0); 
+		Sheet sheet = wb.getSheetAt(wb.getNumberOfSheets()-1); 
 		System.out.println("当前处理的表格名："+sheet.getSheetName());
 		int rowNumbers = sheet.getLastRowNum() + 1;
 		List list = new ArrayList();
@@ -128,7 +129,7 @@ public class OrderCollector {
 				continue;
 			}
 			
-			String[] data = new String[5];
+			String[] data = new String[6];
 			
 			for (int col = 0; col < targetHeader.length; col++) {
 				Cell cell = r.getCell(col);
@@ -148,8 +149,8 @@ public class OrderCollector {
 				
 				data[col] = val;
 			}
-			String kdm = data[4];
-			List kdxx = allData[map.get(kdm) == null ? 7 : map.get(kdm)];
+			String kdm = data[5];
+			List kdxx = allData[map.get(kdm) == null ? 8 : map.get(kdm)];
 			kdxx.add(data);
 		}
 	}
