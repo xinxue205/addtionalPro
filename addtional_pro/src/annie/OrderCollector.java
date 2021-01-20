@@ -25,7 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class OrderCollector {
 	
-	static String sourceFile = "C:\\Users\\FU\\Desktop\\test.xls";
+	static String sourceFile = "C:\\Users\\FU\\Desktop\\工作簿7.xlsx";
 	static String targetDir = "C:\\Users\\FU\\Desktop\\快递\\";
 	static int sourceBeginLine = 2;
 	static String[] targetHeader = {"订单号", "收件人姓名", "收件人电话", "快递单号", "单品名称", "快递公司"};
@@ -36,11 +36,10 @@ public class OrderCollector {
 		init();
 		readData(sourceFile); 
 		exportData();
-		System.out.println("此次处理完毕！");
 	}
 
 	private static void exportData() throws Exception {
-		
+		int j = 0;
 		for (Entry<String, Integer> e : map.entrySet()) {
 			List<String[]> data = allData[e.getValue()];
 			if(data.size()==0) {
@@ -66,6 +65,7 @@ public class OrderCollector {
 	        	cell.setCellValue(currData[0]);
 	        	cell = row.createCell(1);
 	        	cell.setCellValue(currData[3]);
+	        	j++;
 			}
 			
 			//写入文件
@@ -85,6 +85,7 @@ public class OrderCollector {
             }
     		System.out.println(e.getKey()+" 快递处理完（共"+ data.size() +"条数据）！");
 		}
+		System.out.println("此次处理完毕(共"+ j +"条数据)！");
 	}
 	
 	private static void init() {
