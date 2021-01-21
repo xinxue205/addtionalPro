@@ -73,7 +73,7 @@ public class OrderCollector {
             FileOutputStream out = null; 
             try {
             	new File(targetDir).mkdirs();
-                out = new FileOutputStream(targetDir+File.separator+e.getKey()+".xls"); 
+                out = new FileOutputStream(targetDir+File.separator+e.getKey()+ FILE_POSTFIX); 
                 workbook.write(out); 
             } catch (IOException e1) { 
                 e1.printStackTrace(); 
