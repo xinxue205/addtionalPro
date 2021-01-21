@@ -25,6 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class OrderCollector {
 	
+	private static final String FILE_POSTFIX = ".xlsx";
 	static String sourceFile = "C:\\Users\\FU\\Desktop\\工作簿7.xlsx";
 	static String targetDir = "C:\\Users\\FU\\Desktop\\快递\\";
 	static int sourceBeginLine = 2;
@@ -112,7 +113,7 @@ public class OrderCollector {
 		kdh_kdm.put("55", "百世");
 		
 		for (Entry<String, Integer> e : kdm_idx.entrySet()) {
-			new File(targetDir+File.separator+e.getKey()+".xls").delete();
+			new File(targetDir+File.separator+e.getKey()+ FILE_POSTFIX).delete();
 		}
 		allData[0] = new ArrayList<String[]>();
 		allData[1] = new ArrayList<String[]>();
