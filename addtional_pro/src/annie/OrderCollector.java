@@ -28,8 +28,9 @@ public class OrderCollector {
 	static String sourceFile = "C:\\Users\\FU\\Desktop\\工作簿7.xlsx";
 	static String targetDir = "C:\\Users\\FU\\Desktop\\快递\\";
 	static int sourceBeginLine = 2;
-	static String[] targetHeader = {"订单号", "收件人姓名", "收件人电话", "快递单号", "单品名称", "快递公司"};
-	static Map<String, Integer> map = new HashMap<String, Integer>();
+	static String[] targetHeader = {"订单号", "收件人姓名", "收件人电话", "快递单号", "单品名称"};
+	static Map<String, Integer> kdm_idx = new HashMap<String, Integer>();
+	static Map<String, String> kdh_kdm = new HashMap<String, String>();
 	static List<String[]>[] allData = new ArrayList[9];
 	
 	public static void main(String[] args) throws Exception {
@@ -40,7 +41,7 @@ public class OrderCollector {
 
 	private static void exportData() throws Exception {
 		int j = 0;
-		for (Entry<String, Integer> e : map.entrySet()) {
+		for (Entry<String, Integer> e : kdm_idx.entrySet()) {
 			List<String[]> data = allData[e.getValue()];
 			if(data.size()==0) {
 				System.out.println(e.getKey()+" 快递无订单");
@@ -90,17 +91,27 @@ public class OrderCollector {
 	
 	private static void init() {
 		System.out.println("注意：1.原数据表格在文件的第一");
-		map.put("顺丰", 0);
-		map.put("韵达", 1);
-		map.put("中通", 2);
-		map.put("圆通", 3);
-		map.put("申通", 4);
-		map.put("京东", 5);
-		map.put("邮政", 6);
-		map.put("百世", 7);
-		map.put("其它", 8);
+		kdm_idx.put("顺丰", 0);
+		kdm_idx.put("韵达", 1);
+		kdm_idx.put("中通", 2);
+		kdm_idx.put("圆通", 3);
+		kdm_idx.put("申通", 4);
+		kdm_idx.put("京东", 5);
+		kdm_idx.put("邮政", 6);
+		kdm_idx.put("百世", 7);
+		kdm_idx.put("其它", 8);
 		
-		for (Entry<String, Integer> e : map.entrySet()) {
+		kdh_kdm.put("SF", "顺丰");
+		kdh_kdm.put("43", "韵达");
+		kdh_kdm.put("75", "中通");
+		kdh_kdm.put("YT", "圆通");
+		kdh_kdm.put("77", "申通");
+		kdh_kdm.put("JD", "京东");
+		kdh_kdm.put("98", "邮政");
+		kdh_kdm.put("DP", "邮政");
+		kdh_kdm.put("55", "百世");
+		
+		for (Entry<String, Integer> e : kdm_idx.entrySet()) {
 			new File(targetDir+File.separator+e.getKey()+".xls").delete();
 		}
 		allData[0] = new ArrayList<String[]>();
@@ -138,8 +149,9 @@ public class OrderCollector {
 				String str1 = col==0 ? "" : "\t";
 				String val = "";
 				if(cell == null) {
-					val = "其它";
+					val = "";
 				} else {
+					
 					if( cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 						val = NumberToTextConverter.toText(cell.getNumericCellValue());					
 					} else {
@@ -150,8 +162,15 @@ public class OrderCollector {
 				
 				data[col] = val;
 			}
-			String kdm = data[5];
-			List kdxx = allData[map.get(kdm) == null ? 8 : map.get(kdm)];
+			String kdh = data[3];
+			String kdhHead = kdh_kdm.get(kdh.substring(0, 2));
+			int kdmIndex = 8;
+			if(kdhHead != null) {
+				kdmIndex = kdm_idx.get(kdhHead);
+			} else {
+				System.out.println(kdh + " 未知的快递公司，按其它处理");
+			}
+			List kdxx = allData[kdmIndex];
 			kdxx.add(data);
 		}
 	}
