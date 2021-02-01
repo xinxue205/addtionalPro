@@ -10,8 +10,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -60,6 +69,39 @@ public class ZipTool {
 	    return true;
 	  }
 
+	  public static void main(String[] args) throws Exception {
+		  String baseDir = "C:\\Users\\admin\\Desktop\\新建文件夹";
+		  String[] files = {"plugin\\新建文件夹"};
+		String destFile= "C:\\Users\\admin\\Desktop\\新建文件夹\\1.zip";
+//		zipFileAbsolute(baseDir, files,  destFile);
+		add(destFile, baseDir, files[0]);
+	}
+	  
+	  public static boolean add(String zipUrl,String baseUrl, String file) throws IOException {
+			Map <String,String> env = new HashMap<>(); 
+		    env.put("create","true");
+		    //使用语法定位文件系统 
+		    //在java.net.JarURLConnection中定义
+		    Path path = Paths.get(zipUrl);
+		    URI uri = URI.create("jar:"+path.toUri());
+		    try(FileSystem zipfs = FileSystems.newFileSystem(uri,env)){
+		        Path externalTxtFile = Paths.get(baseUrl+ File.separator +file);
+		        Path pathInZipfile = zipfs.getPath(file);
+		        //将文件复制到zip文件中
+				Files.copy(externalTxtFile,pathInZipfile,StandardCopyOption.REPLACE_EXISTING);
+				return true;
+		    }catch (Exception e) {
+		    	e.printStackTrace();
+		    	return false;
+			}
+		}
+	  
+	  /**
+	   * 文件只取文件名压缩
+	   * @param files
+	   * @param destFile
+	   * @throws IOException
+	   */
 	  public static void zipFile(String[] files, String destFile)
 	    throws IOException
 	  {
@@ -79,12 +121,11 @@ public class ZipTool {
 	        System.out.println("Adding: " + files[i]);
 	        FileInputStream fi = new FileInputStream(files[i]);
 	        origin = new BufferedInputStream(fi, 2048);
-	        ZipEntry entry = new ZipEntry(files[i].substring(
-	          files[i].lastIndexOf(File.separator) + 1));
+	        ZipEntry entry = new ZipEntry(files[i].substring(files[i].lastIndexOf(File.separator) + 1));
 	        System.out.println("entry===" + entry.getName());
 	        out.putNextEntry(entry);
 
-	        while ((count = origin.read(data, 0, 2048)) != -1) {
+	        while ((count = origin.read(data)) != -1) {
 	          out.write(data, 0, count);
 	        }
 	        origin.close();
@@ -101,14 +142,19 @@ public class ZipTool {
 	    }
 	  }
 
-	  public void zipFileAbsolute(String[] files, String destFile)
+	  /**
+	   * 文件全路径压缩
+	   * @param files
+	   * @param destFile
+	   * @throws IOException
+	   */
+	  public static void zipFileAbsolute(String baseDir, String[] files, String destFile)
 	    throws IOException
 	  {
 	    try
 	    {
 	      if (destFile.indexOf(".") < 0)
 	        destFile = destFile + ".zip";
-	      BufferedInputStream origin = null;
 
 	      FileOutputStream dest = new FileOutputStream(destFile);
 
@@ -119,13 +165,12 @@ public class ZipTool {
 
 	      for (int i = 0; i < files.length; ++i) {
 	        int count;
-	        System.out.println("Adding: " + files[i]);
-	        FileInputStream fi = new FileInputStream(files[i]);
-	        origin = new BufferedInputStream(fi, 2048);
+	        FileInputStream fi = new FileInputStream(baseDir+ File.separator+files[i]);
+	        BufferedInputStream origin = new BufferedInputStream(fi, 2048);
 	        ZipEntry entry = new ZipEntry(files[i]);
 	        out.putNextEntry(entry);
 
-	        while ((count = origin.read(data, 0, 2048)) != -1) {
+	        while ((count = origin.read(data)) != -1) {
 	          out.write(data, 0, count);
 	        }
 	        origin.close();
