@@ -28,14 +28,14 @@ public class ZipAddTest {
     private static final int BUFFER_SIZE = 10 * 1024;
 
     public static void main(String[] args) throws Exception {
-        String sourceZip = "C:\\Users\\admin\\Desktop\\ĞÂ½¨ÎÄ¼ş¼Ğ\\worker.zip";
-        String sourceFolderParentPath = "C:\\Users\\admin\\Desktop\\ĞÂ½¨ÎÄ¼ş¼Ğ";
+        String sourceZip = "C:\\Users\\admin\\Desktop\\æ–°å»ºæ–‡ä»¶å¤¹\\worker.zip";
+        String sourceFolderParentPath = "C:\\Users\\admin\\Desktop\\æ–°å»ºæ–‡ä»¶å¤¹";
         String sourceFolderName = "plugins";
         addFilesToZip(sourceZip, sourceFolderParentPath, sourceFolderName);
  
     }
     
-    public static void addFilesToZip(String sourceZip, String sourceFolderParentPath, String sourceFolderName) throws Exception {
+	public static void addFilesToZip(String sourceZip, String sourceFolderParentPath, String sourceFolderName) throws Exception {
 		File tmpFile = new File("worker_tmp.zip");
     	ZipOutputStream targetZipOS = new ZipOutputStream(new FileOutputStream(tmpFile));
     	List<String> list = new ArrayList();
@@ -47,7 +47,7 @@ public class ZipAddTest {
     		try {
     			addFileToStream(sourceFolderParentPath, list.get(i), targetZipOS);
     		} catch(Exception e) {
-    			logger.warn("Ìí¼ÓÑ¹ËõÎÄ¼ş"+list.get(i)+"³ö´í(Ìø¹ı´¦Àí)£º"+e);
+    			logger.warn("æ·»åŠ å‹ç¼©æ–‡ä»¶"+list.get(i)+"å‡ºé”™(è·³è¿‡å¤„ç†)ï¼š"+e);
     		}
     	}
     	
