@@ -6,17 +6,19 @@ import java.sql.Timestamp;
 
 
 /**
- * The persistent class for the v_r_database_attribute database table.
+ * The persistent class for the r_database database table.
  * 
  */
 @Entity
-@Table(name="v_r_database_attribute")
-@NamedQuery(name="VRDatabaseAttribute.findAll", query="SELECT v FROM VRDatabaseAttribute v")
-public class VRDatabaseAttribute implements Serializable {
+@Table(name="r_database")
+@NamedQuery(name="RDatabase.findAll", query="SELECT r FROM RDatabase r")
+public class RDatabase implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="code")
-	private String code;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_database")
+	private Long idDatabase;
 
 	@Column(name="connect_timeout")
 	private String connectTimeout;
@@ -36,12 +38,8 @@ public class VRDatabaseAttribute implements Serializable {
 	@Column(name="host_name")
 	private String hostName;
 
-	@Column(name="id_database")
-	private Long idDatabase;
-
-	@Id
-	@Column(name="id_database_attribute")
-	private Long idDatabaseAttribute;
+	@Column(name="id_database_contype")
+	private Long idDatabaseContype;
 
 	@Column(name="id_database_type")
 	private Long idDatabaseType;
@@ -55,37 +53,25 @@ public class VRDatabaseAttribute implements Serializable {
 	@Column(name="modified_user")
 	private String modifiedUser;
 
-	@Column(name="name")
 	private String name;
 
-	@Column(name="password")
 	private String password;
 
-	@Column(name="port")
 	private Integer port;
 
-	@Column(name="servername")
 	private String servername;
 
-	@Column(name="username")
 	private String username;
 
-	@Column(name="value_str")
-	private String valueStr;
-	
-	@Column(name="id_database_contype")
-	private Long idDatabaseContype;
-
-
-	public VRDatabaseAttribute() {
+	public RDatabase() {
 	}
 
-	public String getCode() {
-		return this.code;
+	public Long getIdDatabase() {
+		return this.idDatabase;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setIdDatabase(Long idDatabase) {
+		this.idDatabase = idDatabase;
 	}
 
 	public String getConnectTimeout() {
@@ -136,20 +122,12 @@ public class VRDatabaseAttribute implements Serializable {
 		this.hostName = hostName;
 	}
 
-	public Long getIdDatabase() {
-		return this.idDatabase;
+	public Long getIdDatabaseContype() {
+		return this.idDatabaseContype;
 	}
 
-	public void setIdDatabase(Long idDatabase) {
-		this.idDatabase = idDatabase;
-	}
-
-	public Long getIdDatabaseAttribute() {
-		return this.idDatabaseAttribute;
-	}
-
-	public void setIdDatabaseAttribute(Long idDatabaseAttribute) {
-		this.idDatabaseAttribute = idDatabaseAttribute;
+	public void setIdDatabaseContype(Long idDatabaseContype) {
+		this.idDatabaseContype = idDatabaseContype;
 	}
 
 	public Long getIdDatabaseType() {
@@ -222,22 +200,6 @@ public class VRDatabaseAttribute implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getValueStr() {
-		return this.valueStr;
-	}
-
-	public void setValueStr(String valueStr) {
-		this.valueStr = valueStr;
-	}
-
-	public Long getIdDatabaseContype() {
-		return idDatabaseContype;
-	}
-
-	public void setIdDatabaseContype(Long idDatabaseContype) {
-		this.idDatabaseContype = idDatabaseContype;
 	}
 
 }

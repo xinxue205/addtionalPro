@@ -9,6 +9,8 @@
 		<!--1、 jap是一个规范，是一个接口，它没有任何的具体实现，这里需要指定一个jpa具体实现 -->
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>jpa.left.VRDatabaseAttribute</class>
+		<class>jpa.left.TDatabaseTypeContypeConf</class>
+		<class>jpa.left.RDatabase</class>
 		<properties>
 			<!-- 2、链接数据库的基本信息 com.mysql.jdbc.Driver-->
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
