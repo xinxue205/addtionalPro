@@ -1,9 +1,6 @@
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.pentaho.di.i18n.BaseMessages;
-
-
 public class TimerTest {
 	public static void main(String[] args) {
 		final Timer timer = new Timer("timer-test");

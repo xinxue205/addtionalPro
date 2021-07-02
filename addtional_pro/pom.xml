@@ -398,12 +398,12 @@
 	</dependency>
 	
 	
-	<dependency>
+	<!-- <dependency>
 	  <groupId>com.oracle</groupId>
 	  <artifactId>ojdbc6</artifactId>
 	  <version>11.2.0.3</version>
 	</dependency> 
-	<!-- 
+	
 	<dependency>
 	  <groupId>com.hnisi.syj</groupId>
 	  <artifactId>ojdbc14</artifactId>
@@ -416,12 +416,38 @@
 	  <version>12.1.0.1</version>
 	</dependency>
 	-->
+	<!-- https://mvnrepository.com/artifact/oracle/ojdbc -->
+	<dependency>
+	  <groupId>com.oracle.ojdbc</groupId>
+	  <artifactId>ojdbc8</artifactId>
+	  <version>19.3.0.0</version>
+	</dependency>
+
+	<dependency>
+	    <groupId>com.ibm.informix</groupId>
+	    <artifactId>ifx-changestream-client</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+		
 	<!-- https://mvnrepository.com/artifact/jexcelapi/jxl -->
 	<dependency>
 	    <groupId>jexcelapi</groupId>
 	    <artifactId>jxl</artifactId>
 	    <version>2.6</version>
 	</dependency>
+	
+	<dependency>
+	    <groupId>org.glassfish.external</groupId>
+	    <artifactId>opendmk_jdmkrt_jar</artifactId>
+	    <version>1.0-b01-ea</version>
+	</dependency>
+	<dependency>
+	    <groupId>net.sf.json-lib</groupId>
+	    <artifactId>json-lib</artifactId>
+	    <version>2.4</version>
+	    <classifier>jdk15</classifier>
+	</dependency>
+		
 	
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
 	<dependency>
@@ -553,8 +579,15 @@
     <artifactId>jtds</artifactId>
     <version>1.2.2</version>
 </dependency>
-
 <dependency>
+    <groupId>activesoap</groupId>
+    <artifactId>xercesImpl</artifactId>
+    <version>1.5</version>
+</dependency>
+
+
+
+<!-- <dependency>
 	    <groupId>microsoft</groupId>
 	    <artifactId>sqljdbc</artifactId>
 	    <version>1.2-fixed</version>
@@ -583,11 +616,6 @@
 	<dependency>
     <groupId>cn.sinobest.wxx</groupId>
     <artifactId>jpcap</artifactId>
-    <version>1.0.0</version>
-</dependency>
-<dependency>
-    <groupId>cn.sinobest.wxx</groupId>
-    <artifactId>jclasslib</artifactId>
     <version>1.0.0</version>
 </dependency>
 <dependency>
@@ -641,6 +669,7 @@
   <artifactId>Dm7JdbcDriver</artifactId>
   <version>1.7</version>
 </dependency>
+ -->
 <dependency>
 	<groupId>org.apache.hbase</groupId>
 	<artifactId>hbase-client</artifactId>

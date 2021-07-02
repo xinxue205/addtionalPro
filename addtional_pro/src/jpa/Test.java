@@ -1,5 +1,6 @@
 package jpa;
 
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -237,9 +238,9 @@ public class Test {
 			argTypes[i] = typeList.get(i);
 		}
 		List<Map<String,Object>> result = new ArrayList();
-		Map map = new HashMap();
-		map.put(key, value)
-		result.add();
+//		Map map = new HashMap();
+//		map.put(key, value)
+//		result.add();
 		return result;
 		
 	}

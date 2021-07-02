@@ -27,7 +27,7 @@ import cn.sinobest.knob.util.IPersistence;
 import cn.sinobest.knob.util.ORMlitePersistence;
 
 
-public class PresistenceTest {
+public class Test {
 	public static void main1(String[] args) throws Exception {
 		Configuration cfg = Configuration.getInstanceFromStream(new FileInputStream(new File("conf/sjjh.properties")));
 		PersistenceTool persistTool = new PersistenceTool(cfg);

@@ -19,9 +19,6 @@ import java.util.Set;
 import java.util.UUID;
 
 
-import org.apache.xerces.impl.dv.util.Base64;
-
-
 /**
  * @CopyRight (c) 2014 XXXX有限公司  All rights reserved.
  * @author Shawn.wu
