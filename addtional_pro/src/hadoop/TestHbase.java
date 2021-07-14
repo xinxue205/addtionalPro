@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestHbaseNew {
+public class TestHbase {
 	private static final String table = "test_table";
 
 	private static Configuration cf = null;
