@@ -11,10 +11,11 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.util.GenericOptionsParser;
-public class Test {
-    public Test() {
+
+public class TestHadoop {
+    public TestHadoop() {
     }
      public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
@@ -24,10 +25,11 @@ public class Test {
             System.exit(2);
         }
         Job job = Job.getInstance(conf, "word count");
-        job.setJarByClass(Test.class);
-        job.setMapperClass(Test.TokenizerMapper.class);
-        job.setCombinerClass(Test.IntSumReducer.class);
-        job.setReducerClass(Test.IntSumReducer.class);
+        job.setJarByClass(TestHadoop.class);
+        job.setMapperClass(TestHadoop.TokenizerMapper.class);
+        job.setCombinerClass(TestHadoop.IntSumReducer.class);
+        job.setReducerClass(TestHadoop.IntSumReducer.class);
+//        job.setInputFormatClass(KeyValueTextInputFormat.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class); 
         for(int i = 0; i < otherArgs.length - 1; ++i) {
@@ -36,6 +38,8 @@ public class Test {
         FileOutputFormat.setOutputPath(job, new Path(otherArgs[otherArgs.length - 1]));
         System.exit(job.waitForCompletion(true)?0:1);
     }
+     
+     
     public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
         private static final IntWritable one = new IntWritable(1);
         private Text word = new Text();
